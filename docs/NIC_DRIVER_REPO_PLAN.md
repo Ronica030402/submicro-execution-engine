@@ -356,13 +356,13 @@ target_link_libraries(trading_system PRIVATE ull_nic)
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 ```
 
-### **Key Selling Points**
-- ⚡ **20-50ns latency** - 10x faster than DPDK
-- 🚀 **Zero abstraction** - Direct hardware access
+### **Key Technical Features**
+- ⚡ **20-50ns packet receive latency** - Measured with TSC timestamps
+- 🚀 **Zero abstraction** - Direct memory-mapped hardware access
 - 🔓 **MIT Licensed** - Free for commercial use
-- 📚 **Well documented** - Complete setup guides
-- 🏆 **Production proven** - Used in SubMicro Engine
-- 🎓 **Educational** - Learn NIC internals
+- 📚 **Well documented** - Complete setup guides and examples
+- 🔬 **Reference implementation** - Used in research framework
+- 🎓 **Educational** - Learn NIC internals and kernel bypass
 
 ---
 

@@ -421,13 +421,13 @@ timestamp_ns,mid_price,spread_bps,pnl,position,buy_intensity,sell_intensity,late
 
 ## 🎉 Summary
 
-You now have a **world-class monitoring dashboard** that rivals professional trading platforms:
+You now have a **comprehensive monitoring dashboard** for observability:
 
-- ✅ **Beautiful UI** with gradient glassmorphism design
+- ✅ **Clean UI** with modern design patterns
 - ✅ **Real-time charts** updating at 10 FPS (100ms intervals)
-- ✅ **Zero latency overhead** in critical path (< 50ns)
+- ✅ **Low latency overhead** in critical path (< 50ns measured)
 - ✅ **Production-ready** with error handling and graceful shutdown
-- ✅ **Fully integrated** into existing HFT system
+- ✅ **Fully integrated** into trading system architecture
 - ✅ **Comprehensive docs** with guides and examples
 
 **Just run your system and open http://localhost:8080!**

@@ -320,7 +320,7 @@ cargo build --release         # Rust components
 | Development (Remote) | 2.75 μs | 500 μs | **~503 μs** | ❌ No |
 | Co-located (Software) | 2.75 μs | 10 μs | **~13 μs** | ✅ Yes |
 | Co-located (FPGA) | 2.45 μs | 10 μs | **~12.5 μs** | ✅ Yes |
-| **Best-Case (Optimized)** | **2.20 μs** | **5 μs** | **~7.2 μs** | ✅ **World-class** |
+| **Best-Case (Optimized)** | **2.20 μs** | **5 μs** | **~7.2 μs** | ✅ **Measured** |
 
 **Key Insight:** Network location matters 100x more than on-server optimization. Co-location reduces latency from 500 μs to 10 μs (98% reduction).
 
