@@ -42,6 +42,23 @@ src/backtest_demo.cpp
 src/*.cpp
 **/*.cpp
 
+# -----------------------------------------------------------------------------
+# UNPROFESSIONAL MARKETING FILES (Never commit these)
+# -----------------------------------------------------------------------------
+
+# Files with performance claims, competitor comparisons, tier rankings
+**/ULTRA_ELITE*.md
+**/ULTRA_ELITE*.txt
+**/INSTITUTIONAL_VERIFICATION*.txt
+**/INSTITUTIONAL_VERIFICATION*.md
+**/ACQUISITION_TARGET*.txt
+**/PERFORMANCE_TIER*.md
+institutional_verification/
+institutional_verification.zip
+
+# Files claiming "beats Jane Street", "Top 0.1%", performance tiers, etc.
+# Real institutional logs use timestamps only, no marketing language
+
 # Trained ML models
 ml_models/*.weights
 ml_models/*.onnx
