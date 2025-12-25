@@ -53,7 +53,7 @@ This guide explains how to connect the HFT system to real brokers and exchanges 
 
 ---
 
-## 🚀 Quick Start: Crypto Exchange Integration
+##  Quick Start: Crypto Exchange Integration
 
 ### Example: Binance WebSocket Integration
 
@@ -369,7 +369,7 @@ int main() {
 
 ---
 
-## 🏛️ Professional Broker Integration: FIX Protocol
+## Professional Broker Integration: FIX Protocol
 
 ### FIX Protocol Overview
 
@@ -636,7 +636,7 @@ private:
 
 ---
 
-## 🌐 Popular Broker APIs
+## Popular Broker APIs
 
 ### 1. Interactive Brokers (IBKR)
 
@@ -762,7 +762,7 @@ private:
 
 ---
 
-## 📊 Testing Without Real Money
+## Testing Without Real Money
 
 ### 1. Simulated Mode (Current)
 
@@ -859,7 +859,7 @@ public:
 
 ---
 
-## 🔧 Quick Integration Summary
+## Quick Integration Summary
 
 ### Minimal Working Example (Binance)
 
@@ -893,7 +893,7 @@ BinanceOrderGateway gateway(getenv("BINANCE_API_KEY"),
 
 ---
 
-## 📚 Additional Resources
+##  Additional Resources
 
 - **FIX Protocol:** https://www.fixtrading.org/
 - **QuickFIX Documentation:** http://www.quickfixengine.org/
@@ -903,7 +903,7 @@ BinanceOrderGateway gateway(getenv("BINANCE_API_KEY"),
 
 ---
 
-## ⚠️ Legal Disclaimer
+##  Legal Disclaimer
 
 **This system is for educational purposes. Before live trading:**
 
