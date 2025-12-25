@@ -1,7 +1,7 @@
-# =============================================================================
+# =====
 # LOW-LATENCY TRADING SYSTEM - GIT IGNORE
 # Protects proprietary logic, credentials, and production data
-# =============================================================================
+# =====
 
 # -----------------------------------------------------------------------------
 # CRITICAL: NEVER COMMIT THESE (Production Secrets)
@@ -420,6 +420,6 @@ perf.data.old
 # Python utilities (no proprietary logic)
 # *.py - Allowed (verification scripts, data generation)
 
-# =============================================================================
+# =====
 # END OF .gitignore
-# =============================================================================
+# =====
