@@ -22,7 +22,6 @@
 
 using namespace hft;
 
-// global shutdown flag
 std::atomic<bool> shutdown_requested{false};
 
 void sigint_handler(int sig) {
@@ -32,9 +31,7 @@ void sigint_handler(int sig) {
     }
 }
 
-// ============================================================================
 // Performance Monitoring
-// ============================================================================
 struct PerformanceMetrics {
     uint64_t total_cycles = 0;
     uint64_t total_ticks_processed = 0;
@@ -65,14 +62,12 @@ struct PerformanceMetrics {
         std::cout << "  Avg (µs): " << (avg_latency_ns / 1000.0) << " µs" << std::endl;
         
         if (avg_latency_ns < 1000.0) {
-            std::cout << "✓ Sub-microsecond latency achieved!" << std::endl;
+            std::cout << "Sub-microsecond latency achieved!" << std::endl;
         }
     }
 };
 
-// ============================================================================
 // Trading System State
-// ============================================================================
 struct TradingState {
     int64_t current_position = 0;
     double realized_pnl = 0.0;
@@ -84,9 +79,7 @@ struct TradingState {
     QuotePair active_quotes;
 };
 
-// ============================================================================
-// Volatility Estimator (for risk regime detection)
-// ============================================================================
+// Volatility Estimator
 class VolatilityEstimator {
 public:
     explicit VolatilityEstimator(size_t window_size = 100)
@@ -102,7 +95,6 @@ public:
     double get_realized_volatility() const {
         if (prices_.size() < 2) return 0.0;
         
-        // Calculate returns
         std::vector<double> returns;
         for (size_t i = 1; i < prices_.size(); ++i) {
             if (prices_[i-1] > 0) {
@@ -112,7 +104,6 @@ public:
         
         if (returns.empty()) return 0.0;
         
-        // Calculate standard deviation of returns
         double mean = 0.0;
         for (double r : returns) mean += r;
         mean /= returns.size();
@@ -139,9 +130,7 @@ private:
     std::vector<double> prices_;
 };
 
-// ============================================================================
 // System Initialization: Configure for ultra-low latency
-// ============================================================================
 void configure_system_for_low_latency() {
     // Lock all current and future pages in RAM (prevent swapping)
     if (mlockall(MCL_CURRENT | MCL_FUTURE) != 0) {
@@ -152,7 +141,7 @@ void configure_system_for_low_latency() {
 #ifdef __linux__
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
-    CPU_SET(0, &cpuset);  // Pin to CPU core 0
+    CPU_SET(0, &cpuset);
     
     if (sched_setaffinity(0, sizeof(cpu_set_t), &cpuset) != 0) {
         std::cerr << "Warning: Failed to set CPU affinity" << std::endl;
@@ -160,7 +149,7 @@ void configure_system_for_low_latency() {
     
     // Set real-time scheduling priority
     struct sched_param param;
-    param.sched_priority = 99;  // Highest RT priority
+    param.sched_priority = 99;
     if (sched_setscheduler(0, SCHED_FIFO, &param) != 0) {
         std::cerr << "Warning: Failed to set RT priority (run with sudo for RT scheduling)" << std::endl;
     }
@@ -169,9 +158,7 @@ void configure_system_for_low_latency() {
     std::cout << "[SYSTEM] Memory locked, CPU affinity set, RT priority configured" << std::endl;
 }
 
-// ============================================================================
 // Main Trading Loop
-// ============================================================================
 int main() {
     std::cout << "=== Ultra-Low-Latency HFT System ===" << std::endl;
     std::cout << "Architecture: C++ (90%) + Rust (10%) + FPGA-style pipelines" << std::endl;
@@ -179,31 +166,26 @@ int main() {
     std::cout << "Target: Sub-microsecond decision latency" << std::endl;
     std::cout << "Press Ctrl+C to shutdown\n" << std::endl;
     
-    // Configure system for low-latency
     configure_system_for_low_latency();
     
     // Setup signal handling
     std::signal(SIGINT, signal_handler);
     std::signal(SIGTERM, signal_handler);
     
-    // ========================================================================
-    // Initialize all components
-    // ========================================================================
-    
     std::cout << "\n[INIT] Initializing components..." << std::endl;
     
     // 1. Kernel Bypass NIC (market data ingestion)
     KernelBypassNIC nic(16384);
     nic.start();
-    std::cout << "[INIT] ✓ Kernel Bypass NIC (zero-copy, 16K ring buffer)" << std::endl;
+    std::cout << "[INIT] Kernel Bypass NIC (zero-copy, 16K ring buffer)" << std::endl;
     
     // 2. Shared Memory Queue (multi-process IPC)
     shm::SharedMarketDataQueue shared_queue("hft_market_data", true);
-    std::cout << "[INIT] ✓ Shared Memory IPC (32K capacity, /dev/shm)" << std::endl;
+    std::cout << "[INIT] Shared Memory IPC (32K capacity, /dev/shm)" << std::endl;
     
     // 3. Event Scheduler (nanosecond-precision timing wheel)
     scheduler::TimingWheelScheduler timing_wheel(1024, std::chrono::microseconds(10));
-    std::cout << "[INIT] ✓ Timing Wheel Scheduler (1024 slots, 10µs granularity)" << std::endl;
+    std::cout << "[INIT] Timing Wheel Scheduler (1024 slots, 10µs granularity)" << std::endl;
     
     // 2. Hawkes Process Engine (signal generation)
     HawkesIntensityEngine hawkes(
@@ -244,28 +226,25 @@ int main() {
     
     // 6. Volatility Estimator (for regime detection)
     VolatilityEstimator vol_estimator(100);
-    std::cout << "[INIT] ✓ Volatility Estimator (100-tick window)" << std::endl;
+    std::cout << "[INIT] Volatility Estimator (100-tick window)" << std::endl;
     
     // 7. Metrics Collection & Dashboard (monitoring layer)
     MetricsCollector metrics_collector(10000);
     DashboardServer dashboard(metrics_collector, 8080);
     dashboard.start();
-    std::cout << "[INIT] ✓ Real-Time Dashboard Server (http://localhost:8080)" << std::endl;
+    std::cout << "[INIT] Real-Time Dashboard Server (http://localhost:8080)" << std::endl;
     
     // 7. Rust Components (memory-safe + fast)
     // Note: Requires Rust library to be compiled and linked
     // rust_ffi::RustMarketMakerWrapper rust_mm(0.1, 0.20, 0.01);
     // rust_ffi::RustRiskControlWrapper rust_risk(1000);
-    std::cout << "[INIT] ✓ Rust FFI ready (compile with Cargo for full integration)" << std::endl;
+    std::cout << "[INIT] Rust FFI ready (compile with Cargo for full integration)" << std::endl;
     
     // 7. Market Data Simulator (for testing)
     MarketDataSimulator simulator(nic);
     simulator.start(1000.0);  // 1000 Hz update rate
     std::cout << "[INIT] Market data simulator started (1000 Hz)\n" << std::endl;
     
-    // ========================================================================
-    // Trading state
-    // ========================================================================
     TradingState state;
     PerformanceMetrics metrics;
     
@@ -279,26 +258,20 @@ int main() {
     
     std::cout << "=== Trading Loop Started ===" << std::endl;
     std::cout << "Features Active:" << std::endl;
-    std::cout << "  ✓ Lock-free SPSC ring buffers" << std::endl;
-    std::cout << "  ✓ Zero-copy shared memory IPC" << std::endl;
-    std::cout << "  ✓ Nanosecond event scheduling" << std::endl;
-    std::cout << "  ✓ Deterministic FPGA-style pipeline" << std::endl;
-    std::cout << "  ✓ No dynamic allocation (garbage-free)" << std::endl;
-    std::cout << "  ✓ Cache-line aligned structures" << std::endl;
+    std::cout << "  Lock-free SPSC ring buffers" << std::endl;
+    std::cout << "  Zero-copy shared memory IPC" << std::endl;
+    std::cout << "  Nanosecond event scheduling" << std::endl;
+    std::cout << "  Deterministic FPGA-style pipeline" << std::endl;
+    std::cout << "  No dynamic allocation (garbage-free)" << std::endl;
+    std::cout << "  Cache-line aligned structures" << std::endl;
     std::cout << "Target latency: < 1000 ns per decision cycle\n" << std::endl;
     
-    // ========================================================================
-    // Main deterministic trading loop
-    // ========================================================================
     while (!g_shutdown_requested.load(std::memory_order_acquire) && 
            !risk_control.is_kill_switch_triggered()) {
         
         const Timestamp cycle_start = now();
         
-        // ====================================================================
-        // Step 1: Get market data (zero-copy from NIC)
-        // Try both local queue and shared memory
-        // ====================================================================
+        // Get market data (zero-copy from NIC)
         MarketTick tick;
         bool has_data = nic.get_next_tick(tick);
         
@@ -321,9 +294,9 @@ int main() {
         state.previous_tick = state.last_tick;
         state.last_tick = tick;
         
-        // ====================================================================
+        // 
         // Step 2: Update Hawkes Process (signal generation)
-        // ====================================================================
+        // 
         if (tick.trade_volume > 0) {
             TradingEvent event(tick.timestamp, tick.trade_side, tick.asset_id);
             hawkes.update(event);
@@ -332,9 +305,9 @@ int main() {
         const double hawkes_buy_intensity = hawkes.get_buy_intensity();
         const double hawkes_sell_intensity = hawkes.get_sell_intensity();
         
-        // ====================================================================
+        // 
         // Step 3: Extract microstructure features
-        // ====================================================================
+        // 
         const auto features = FPGA_DNN_Inference::extract_features(
             tick,
             state.previous_tick,
@@ -343,31 +316,31 @@ int main() {
             hawkes_sell_intensity
         );
         
-        // ====================================================================
+        // 
         // Step 4: FPGA inference (400ns deterministic latency)
-        // ====================================================================
+        // 
         const auto prediction = fpga_inference.predict(features);
         // prediction = [buy_score, hold_score, sell_score]
         
-        // ====================================================================
+        // 
         // Step 5: Update volatility estimate and risk regime
-        // ====================================================================
+        // 
         vol_estimator.update(tick.mid_price);
         const double vol_index = vol_estimator.get_volatility_index();
         risk_control.set_regime_multiplier(vol_index);
         
-        // ====================================================================
+        // 
         // Step 6: Calculate latency cost
-        // ====================================================================
+        // 
         const double current_vol = vol_estimator.get_realized_volatility();
         const double latency_cost = mm_strategy.calculate_latency_cost(
             current_vol, 
             tick.mid_price
         );
         
-        // ====================================================================
+        // 
         // Step 7: Generate optimal quotes (HJB/AS model)
-        // ====================================================================
+        // 
         const double time_remaining = 300.0;  // Fixed 5-min horizon for simplicity
         const QuotePair quotes = mm_strategy.calculate_quotes(
             tick.mid_price,
@@ -376,9 +349,9 @@ int main() {
             latency_cost
         );
         
-        // ====================================================================
+        // 
         // Step 8: Risk checks
-        // ====================================================================
+        // 
         if (quotes.bid_price > 0 && quotes.ask_price > 0) {
             // Create potential orders
             Order bid_order(cycle_count * 2, tick.asset_id, Side::BUY, 
@@ -392,12 +365,8 @@ int main() {
             const bool ask_approved = risk_control.check_pre_trade_limits(
                 ask_order, state.current_position);
             
-            // ================================================================
-            // Step 9: Order submission (in production: send to exchange)
-            // ================================================================
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // CRITICAL: MINIMUM LATENCY FLOOR ENFORCEMENT (550ns)
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // Order submission (in production: send to exchange)
+            // Minimum latency floor enforcement (550ns)
             // This prevents catastrophic loss from toxic flow adverse selection.
             // We enforce a 550ns floor (50ns safety buffer above 500ns threshold)
             // to avoid the "speed trap" where faster execution leads to trading
@@ -434,9 +403,9 @@ int main() {
             }
         }
         
-        // ====================================================================
+        // 
         // Step 10: Measure cycle latency & Update metrics (deterministic profiling)
-        // ====================================================================
+        // 
         const Timestamp cycle_end = now();
         const int64_t cycle_latency_ns = to_nanos(cycle_end) - to_nanos(cycle_start);
         metrics.update(cycle_latency_ns);
@@ -487,9 +456,9 @@ int main() {
         
         ++cycle_count;
         
-        // ====================================================================
+        // 
         // Periodic status updates
-        // ====================================================================
+        // 
         if (cycle_count % print_interval == 0) {
             const auto nic_stats = nic.get_stats();
             
@@ -524,9 +493,9 @@ int main() {
         }
     }
     
-    // ========================================================================
+    // 
     // Shutdown sequence
-    // ========================================================================
+    // 
     std::cout << "\n\n=== Shutting Down ===" << std::endl;
     
     simulator.stop();
