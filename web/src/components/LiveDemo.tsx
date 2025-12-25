@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { Play, Pause, RotateCcw, Heart } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function LiveDemo() {
@@ -173,6 +173,15 @@ export default function LiveDemo() {
                 className="px-8 py-4 bg-secondary border-2 border-border rounded-lg text-foreground font-medium hover:border-foreground/50 transition-all duration-300"
               >
                 View on GitHub
+              </a>
+              <a
+                href="https://github.com/sponsors/krish567366"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 bg-red-50 border-2 border-red-200 rounded-lg text-red-700 font-medium hover:border-red-300 hover:bg-red-100 transition-all duration-300 flex items-center gap-2"
+              >
+                <Heart className="w-4 h-4" />
+                Sponsor Project
               </a>
               <a
                 href="#architecture"
