@@ -12,13 +12,13 @@ echo ""
 
 # Check CSV file exists
 if [[ ! -f "synthetic_ticks.csv" ]]; then
-    echo "❌ synthetic_ticks.csv not found!"
+    echo " synthetic_ticks.csv not found!"
     exit 1
 fi
 
 # Count rows
 ROWS=$(wc -l < synthetic_ticks.csv)
-echo "✅ Found synthetic_ticks.csv with $ROWS rows"
+echo " Found synthetic_ticks.csv with $ROWS rows"
 echo ""
 
 # Create temporary CSV reader demo
@@ -136,7 +136,7 @@ int main() {
     // Open CSV file
     std::ifstream file("synthetic_ticks.csv");
     if (!file.is_open()) {
-        std::cerr << "❌ Failed to open synthetic_ticks.csv\n";
+        std::cerr << " Failed to open synthetic_ticks.csv\n";
         return 1;
     }
     
@@ -294,7 +294,7 @@ int main() {
                   << ((max_ns - min_ns) / 1000.0) << " µs)\n";
         std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
         
-        std::cout << "✅ CSV replay complete!\n\n";
+        std::cout << " CSV replay complete!\n\n";
     }
     
     return 0;
@@ -318,7 +318,7 @@ $CXX -std=c++17 -O2 -march=native -pthread -Wall -Wextra \
     /tmp/csv_demo.cpp -o build/csv_demo
 
 if [[ $? -eq 0 ]]; then
-    echo "✅ Build successful!"
+    echo " Build successful!"
     echo ""
     echo "Running CSV replay..."
     echo "════════════════════════════════════════════════════════"
@@ -327,11 +327,11 @@ if [[ $? -eq 0 ]]; then
     ./build/csv_demo
     
     echo "════════════════════════════════════════════════════════"
-    echo "✅ CSV demo complete!"
+    echo " CSV demo complete!"
     echo ""
     echo "Your production code in src/main.cpp is unchanged."
     echo ""
 else
-    echo "❌ Build failed!"
+    echo " Build failed!"
     exit 1
 fi
