@@ -6,18 +6,18 @@
 #include <chrono>
 #include <iomanip>
 
-// ============================================================================
+// ====
 // PRODUCTION LOGGING SYSTEM - INSTITUTIONAL GRADE
-// ============================================================================
+// ====
 // Multi-layered logging for regulatory compliance and third-party verification
 // No performance claims, no marketing, just facts
-// ============================================================================
+// ====
 
 namespace hft {
 
-// ============================================================================
+// ====
 // Layer 1: NIC Hardware Timestamps (Physical Reality)
-// ============================================================================
+// ====
 class NICHardwareLog {
 public:
     explicit NICHardwareLog(const std::string& filename) {
@@ -57,9 +57,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Layer 2: Strategy Decision Trace (User-Space Events)
-// ============================================================================
+// ====
 class StrategyTraceLog {
 public:
     explicit StrategyTraceLog(const std::string& filename) {
@@ -103,9 +103,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Layer 3: Exchange ACK Log (External Reality)
-// ============================================================================
+// ====
 class ExchangeACKLog {
 public:
     explicit ExchangeACKLog(const std::string& filename) {
@@ -148,9 +148,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Layer 4: PTP Clock Sync Log (Time Alignment Proof)
-// ============================================================================
+// ====
 class PTPSyncLog {
 public:
     explicit PTPSyncLog(const std::string& filename) {
@@ -190,9 +190,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Layer 5: Order Gateway Log (Internal → External Boundary)
-// ============================================================================
+// ====
 class OrderGatewayLog {
 public:
     explicit OrderGatewayLog(const std::string& filename) {
@@ -232,9 +232,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // MANIFEST Generator (Cryptographic Integrity)
-// ============================================================================
+// ====
 class ManifestGenerator {
 public:
     void add_file(const std::string& filename, const std::string& sha256) {
@@ -271,9 +271,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Production Log Bundle (Coordinates All Layers)
-// ============================================================================
+// ====
 class ProductionLogBundle {
 public:
     explicit ProductionLogBundle(const std::string& run_id) 
