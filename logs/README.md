@@ -30,13 +30,13 @@ tcpdump -r raw_capture_20251215.pcap -tt -n
 
 ## Principles
 
-✓ Logs record events, not interpretations
-✓ Timestamps are raw (HW ns, TSC ticks)
-✓ No inline latency computations
-✓ External timestamps cannot be faked
-✓ Correlation happens offline
-✓ PCAP proves wire truth
-✓ Manifest proves integrity
+Logs record events, not interpretations
+Timestamps are raw (HW ns, TSC ticks)
+No inline latency computations
+External timestamps cannot be faked
+Correlation happens offline
+PCAP proves wire truth
+Manifest proves integrity
 
 ✗ No performance claims
 ✗ No competitor comparisons
