@@ -23,9 +23,7 @@
 namespace hft {
 namespace backtest {
 
-// ============================================================================
 // Historical Market Data Event (Compressed Format)
-// ============================================================================
 struct HistoricalEvent {
     int64_t timestamp_ns;           // Nanosecond precision
     uint32_t asset_id;
@@ -81,9 +79,7 @@ struct HistoricalEvent {
     }
 };
 
-// ============================================================================
 // Fill Probability Model (Empirical Adverse Selection Model)
-// ============================================================================
 // Forward declare parameters struct
 struct FillModelParameters {
     double base_fill_probability;
@@ -194,9 +190,7 @@ private:
     ModelParameters params_;
 };
 
-// ============================================================================
 // Simulated Order (in backtesting environment)
-// ============================================================================
 struct SimulatedOrder {
     Order order;
     int64_t submit_time_ns;
@@ -213,9 +207,7 @@ struct SimulatedOrder {
           queue_position(0) {}
 };
 
-// ============================================================================
 // Performance Metrics (HFT-specific)
-// ============================================================================
 struct PerformanceMetrics {
     // Return metrics
     double total_pnl = 0.0;
@@ -263,7 +255,7 @@ struct PerformanceMetrics {
         std::cout << std::string(70, '=') << "\n\n";
         
         // Returns
-        std::cout << "📊 RETURN METRICS\n";
+        std::cout << "RETURN METRICS\n";
         std::cout << std::string(70, '-') << "\n";
         std::cout << "Total P&L:           " << std::fixed << std::setprecision(2) 
                   << "$" << total_pnl << "\n";
@@ -276,7 +268,7 @@ struct PerformanceMetrics {
                   << calmar_ratio << "\n\n";
         
         // HFT Metrics
-        std::cout << "⚡ HFT-SPECIFIC METRICS\n";
+        std::cout << "HFT-SPECIFIC METRICS\n";
         std::cout << std::string(70, '-') << "\n";
         std::cout << "Adverse Selection:   " << std::setprecision(4)
                   << adverse_selection_ratio << "\n";
@@ -297,7 +289,7 @@ struct PerformanceMetrics {
                   << (realized_spread_bps / quoted_spread_bps) * 100.0 << "%\n\n";
         
         // Trade Statistics
-        std::cout << "📈 TRADE STATISTICS\n";
+        std::cout << "TRADE STATISTICS\n";
         std::cout << std::string(70, '-') << "\n";
         std::cout << "Total Trades:        " << total_trades << "\n";
         std::cout << "Winning Trades:      " << winning_trades << "\n";
@@ -308,7 +300,7 @@ struct PerformanceMetrics {
         std::cout << "Avg Loss:            $" << avg_loss << "\n\n";
         
         // Risk Metrics
-        std::cout << "⚠️  RISK METRICS\n";
+        std::cout << "  RISK METRICS\n";
         std::cout << std::string(70, '-') << "\n";
         std::cout << "Volatility:          " << std::setprecision(2)
                   << volatility * 100.0 << "%\n";
@@ -319,10 +311,8 @@ struct PerformanceMetrics {
     }
 };
 
-// ============================================================================
 // Deterministic Backtesting Engine
 // Single-threaded, fully deterministic, bit-for-bit reproducible
-// ============================================================================
 // Forward declare Config struct  
 struct BacktestConfig {
     int64_t simulated_latency_ns;
@@ -351,9 +341,9 @@ class BacktestingEngine {
 public:
     using Config = BacktestConfig;
     
-    // ========================================================================
+    // 
     // Constructor
-    // ========================================================================
+    // 
     explicit BacktestingEngine(const Config& config = Config())
         : config_(config),
           current_time_ns_(0),
@@ -395,9 +385,9 @@ public:
         }
     }
     
-    // ========================================================================
+    // 
     // Load historical data from CSV
-    // ========================================================================
+    // 
     bool load_historical_data(const std::string& filepath) {
         std::ifstream file(filepath);
         if (!file.is_open()) {
@@ -423,7 +413,7 @@ public:
                 return a.timestamp_ns < b.timestamp_ns;
             });
         
-        std::cout << "✓ Loaded " << events_loaded << " historical events\n";
+        std::cout << "Loaded " << events_loaded << " historical events\n";
         std::cout << "  Time range: " << historical_events_.front().timestamp_ns
                   << " → " << historical_events_.back().timestamp_ns << "\n";
         std::cout << "  Duration: " 
@@ -451,10 +441,10 @@ public:
         return true;
     }
     
-    // ========================================================================
+    // 
     // Run backtest (DETERMINISTIC)
     // Single-threaded sequential execution
-    // ========================================================================
+    // 
     PerformanceMetrics run_backtest() {
         std::cout << "Starting deterministic backtest...\n";
         std::cout << "Simulated latency: " << config_.simulated_latency_ns << " ns\n";
@@ -564,11 +554,11 @@ public:
         // Generate institutional logging reports
         if (replay_logger_) {
             replay_logger_->flush();
-            std::cout << "✓ Event replay log written to: logs/backtest_replay.log\n";
+            std::cout << "Event replay log written to: logs/backtest_replay.log\n";
         }
         
         if (risk_logger_) {
-            std::cout << "✓ Risk breach log written to: logs/risk_breaches.log\n";
+            std::cout << "Risk breach log written to: logs/risk_breaches.log\n";
             std::cout << "  Total risk breaches: " << risk_logger_->get_breach_count() << "\n";
         }
         
@@ -599,9 +589,9 @@ public:
         return calculate_metrics();
     }
     
-    // ========================================================================
+    // 
     // Run latency sensitivity analysis
-    // ========================================================================
+    // 
     std::map<int64_t, PerformanceMetrics> run_latency_sensitivity_analysis() {
         std::map<int64_t, PerformanceMetrics> results;
         
@@ -633,9 +623,9 @@ public:
     }
     
 private:
-    // ========================================================================
+    // 
     // Trading Signal with Persistent Alpha (1-5ms Time Horizon)
-    // ========================================================================
+    // 
     struct TradingSignal {
         bool should_trade = false;
         Side side = Side::BUY;
@@ -647,13 +637,13 @@ private:
         int64_t signal_persistence_ns = 0;
     };
     
-    // ========================================================================
+    // 
     // NEW: Temporal Filter for Persistent Alpha (Strategic Fix)
-    // ========================================================================
+    // 
     // PURPOSE: Capture signals that persist for 1-5ms (not toxic <100ns flow)
     // MECHANISM: Require OBI/Deep OFI to stay above threshold for 1.5μs minimum
     // RESULT: Eliminates adverse selection during 890ns execution window
-    // ========================================================================
+    // 
     struct TemporalFilterState {
         double accumulated_obi = 0.0;              // Cumulative OBI strength
         int64_t signal_start_time_ns = 0;          // When persistent signal began
@@ -681,9 +671,9 @@ private:
     
     TemporalFilterState temporal_filter_;
     
-    // ========================================================================
+    // 
     // Generate Trading Signal with 1.5μs Temporal Filter
-    // ========================================================================
+    // 
     TradingSignal generate_trading_signal(
         const MarketTick& current_tick,
         const MarketTick& previous_tick
@@ -855,9 +845,9 @@ private:
         return signal;
     }
     
-    // ========================================================================
+    // 
     // Execute trading decision
-    // ========================================================================
+    // 
     void execute_trading_decision(
         const TradingSignal& signal,
         const MarketTick& current_tick
@@ -887,9 +877,9 @@ private:
         }
     }
     
-    // ========================================================================
+    // 
     // Submit order to simulator with MINIMUM LATENCY FLOOR
-    // ========================================================================
+    // 
     void submit_order(const Order& order, const MarketTick& current_tick) {
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         // CRITICAL: MINIMUM LATENCY FLOOR ENFORCEMENT (550ns)
@@ -938,18 +928,18 @@ private:
         order_decision_mid_prices_[order.order_id] = current_tick.mid_price;
     }
     
-    // ========================================================================
+    // 
     // Process scheduled events (fills, cancellations)
     // Simplified without timing wheel - process immediately
-    // ========================================================================
+    // 
     void process_scheduled_events() {
         // In this simplified version, we check fills immediately
         // based on simulated latency elapsed time
     }
     
-    // ========================================================================
+    // 
     // Process fill check (simplified)
-    // ========================================================================
+    // 
     void process_fill_check(uint64_t order_id) {
         // MINIMUM LATENCY FLOOR ENFORCEMENT
         const int64_t MINIMUM_LATENCY_FLOOR_NS = 550;
@@ -1071,9 +1061,9 @@ private:
         }
     }
     
-    // ========================================================================
+    // 
     // Estimate queue position
-    // ========================================================================
+    // 
     int estimate_queue_position(const Order& order, const MarketTick& tick) const {
         // Simplified: assume we're in middle of queue
         if (order.side == Side::BUY) {
@@ -1083,9 +1073,9 @@ private:
         }
     }
     
-    // ========================================================================
+    // 
     // Get current market state
-    // ========================================================================
+    // 
     MarketTick get_current_market_state() const {
         // Find closest historical event
         auto it = std::lower_bound(historical_events_.begin(), 
@@ -1101,9 +1091,9 @@ private:
         return it->to_market_tick();
     }
     
-    // ========================================================================
+    // 
     // Estimate current volatility
-    // ========================================================================
+    // 
     double estimate_current_volatility() const {
         // Use recent price changes
         if (pnl_history_.size() < 10) return 0.20;  // Default 20%
@@ -1126,9 +1116,9 @@ private:
         return std::sqrt(variance * 252.0 * 6.5 * 3600.0);  // Annualized
     }
     
-    // ========================================================================
+    // 
     // Update P&L
-    // ========================================================================
+    // 
     void update_pnl(const MarketTick& current_tick) {
         // Calculate unrealized P&L from current position
         unrealized_pnl_ = current_position_ * current_tick.mid_price;
@@ -1147,9 +1137,9 @@ private:
         realized_pnl_ = new_realized;
     }
     
-    // ========================================================================
+    // 
     // Record state for metrics
-    // ========================================================================
+    // 
     void record_state(const MarketTick& current_tick) {
         pnl_history_.push_back(realized_pnl_ + unrealized_pnl_);
         timestamp_history_.push_back(current_time_ns_);
@@ -1160,9 +1150,9 @@ private:
         quoted_spreads_.push_back(spread_bps);
     }
     
-    // ========================================================================
+    // 
     // Calculate performance metrics
-    // ========================================================================
+    // 
     PerformanceMetrics calculate_metrics() {
         PerformanceMetrics metrics;
         
@@ -1289,9 +1279,9 @@ private:
         return metrics;
     }
     
-    // ========================================================================
+    // 
     // Parse CSV line (supports both formats)
-    // ========================================================================
+    // 
     bool parse_csv_line(const std::string& line, HistoricalEvent& event) {
         std::stringstream ss(line);
         std::string cell;
@@ -1352,9 +1342,9 @@ private:
         }
     }
     
-    // ========================================================================
+    // 
     // Print latency sensitivity results
-    // ========================================================================
+    // 
     void print_latency_sensitivity_results(
         const std::map<int64_t, PerformanceMetrics>& results
     ) {
@@ -1390,15 +1380,15 @@ private:
             double latency_diff_100ns = (it2->first - it1->first) / 100.0;
             double pnl_per_100ns = pnl_diff / latency_diff_100ns;
             
-            std::cout << "💡 Performance degradation: $" << std::fixed 
+            std::cout << "Performance degradation: $" << std::fixed 
                       << std::setprecision(2) << std::abs(pnl_per_100ns)
                       << " per 100 ns of additional latency\n\n";
         }
     }
     
-    // ========================================================================
+    // 
     // Member variables
-    // ========================================================================
+    // 
     Config config_;
     FillProbabilityModel fill_model_;
     
