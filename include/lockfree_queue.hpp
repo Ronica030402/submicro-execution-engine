@@ -56,7 +56,7 @@ public:
         return (t - h) & (N - 1);
     }
     // Status queries
-    // ========================================================================
+    // 
     bool empty() const {
         return head_.load(std::memory_order_acquire) == 
                tail_.load(std::memory_order_acquire);
@@ -76,9 +76,9 @@ private:
         return (idx + 1) & (Capacity - 1);
     }
     
-    // ========================================================================
+    // 
     // Data Members (cache-line aligned to prevent false sharing)
-    // ========================================================================
+    // 
     alignas(64) std::atomic<size_t> head_;  // Consumer index
     alignas(64) std::atomic<size_t> tail_;  // Producer index
     alignas(64) std::array<T, Capacity> buffer_;
