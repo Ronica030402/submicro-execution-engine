@@ -5,9 +5,9 @@
 
 echo "=== Pushing Low-Latency Trading System to GitHub ==="
 echo ""
-echo "✓ All .hpp files excluded (proprietary logic protected)"
-echo "✓ All .cpp files excluded (implementation protected)"  
-echo "✓ All .rs files excluded (Rust implementation protected)"
+echo "All .hpp files excluded (proprietary logic protected)"
+echo "All .cpp files excluded (implementation protected)"  
+echo "All .rs files excluded (Rust implementation protected)"
 echo ""
 echo "What WILL be published:"
 echo "  - Documentation (.md files)"
