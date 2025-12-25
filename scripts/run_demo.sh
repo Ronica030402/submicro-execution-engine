@@ -12,13 +12,13 @@ echo ""
 
 # Check if on macOS
 if [[ "$(uname)" != "Darwin" ]]; then
-    echo "⚠️  This script is for macOS. Use build_benchmark.sh on Linux."
+    echo "  This script is for macOS. Use build_benchmark.sh on Linux."
     echo ""
 fi
 
 # Check for compiler
 if ! command -v g++ &> /dev/null && ! command -v clang++ &> /dev/null; then
-    echo "❌ No C++ compiler found"
+    echo " No C++ compiler found"
     echo "   Install Xcode Command Line Tools:"
     echo "   xcode-select --install"
     exit 1
@@ -59,7 +59,7 @@ echo ""
 $CXX "${CXXFLAGS[@]}" src/main.cpp -o "$BUILD_DIR/trading_demo"
 
 if [[ $? -eq 0 ]]; then
-    echo "✅ Build successful!"
+    echo " Build successful!"
     echo ""
     echo "Running demo..."
     echo "════════════════════════════════════════════════════════"
@@ -70,11 +70,11 @@ if [[ $? -eq 0 ]]; then
     
     echo ""
     echo "════════════════════════════════════════════════════════"
-    echo "✅ Demo complete!"
+    echo " Demo complete!"
     echo ""
     echo "To run again: ./$BUILD_DIR/trading_demo"
     echo ""
 else
-    echo "❌ Build failed!"
+    echo " Build failed!"
     exit 1
 fi
