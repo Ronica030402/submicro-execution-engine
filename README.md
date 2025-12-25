@@ -14,7 +14,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-<h1>🚀 Ultra-Low Latency Trading System</h1>
+<h1>Ultra-Low Latency Trading System</h1>
 
 <p>
 <b>Deterministic, nanosecond-precise execution engine for quantitative trading research</b>
@@ -27,51 +27,51 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](.)
 
 <p>
-<a href="https://submicro.krishnabajpai.me/">🌐 Live Demo</a> •
-<a href="#-key-features">Features</a> •
-<a href="#-quick-start">Quick Start</a> •
-<a href="#-benchmarks">Benchmarks</a> •
-<a href="#-architecture">Architecture</a> •
-<a href="#-documentation">Docs</a>
+<a href="https://submicro.krishnabajpai.me/">Live Demo</a> •
+<a href="#key-features">Features</a> •
+<a href="#quick-start">Quick Start</a> •
+<a href="#benchmarks">Benchmarks</a> •
+<a href="#architecture">Architecture</a> •
+<a href="#documentation">Docs</a>
 </p>
 
 ---
 
-### ⚡ **890ns median latency** | 🎯 **Deterministic replay** | 🔒 **Lock-free architecture** | 🧪 **Research-grade framework**
+### **890ns median latency** | **Deterministic replay** | **Lock-free architecture** | **Research-grade framework**
 
-**[👉 View Interactive Documentation →](https://submicro.krishnabajpai.me/)**
+**[View Interactive Documentation →](https://submicro.krishnabajpai.me/)**
 
 </div>
 
 ---
 
-## 🎯 What Makes This Special?
+## What Makes This Special?
 
 > **Built for researchers and systems engineers pushing the boundaries of low-latency execution.**
 
 This isn't just another trading bot. It's a **complete infrastructure** for understanding, measuring, and optimizing execution latency at the **hardware level**.
 
-### 💎 The Problem
+### The Problem
 Traditional trading systems are black boxes with unpredictable latency, non-deterministic behavior, and poor visibility into where microseconds are lost.
 
-### 🎁 The Solution
+### The Solution
 A **transparent, deterministic execution engine** that:
-- ✅ Achieves **sub-microsecond decision latency** (890ns median)
-- ✅ Guarantees **bit-identical replay** for audit and debugging
-- ✅ Provides **nanosecond-level instrumentation** at every stage
-- ✅ Uses **zero-allocation hot paths** and lock-free data structures
-- ✅ Simulates **kernel-bypass networking** (DPDK-style)
-- ✅ Implements **institutional-grade logging** and monitoring
+- Achieves **sub-microsecond decision latency** (890ns median)
+- Guarantees **bit-identical replay** for audit and debugging
+- Provides **nanosecond-level instrumentation** at every stage
+- Uses **zero-allocation hot paths** and lock-free data structures
+- Simulates **kernel-bypass networking** (DPDK-style)
+- Implements **institutional-grade logging** and monitoring
 
-⚠️ **Research & Education Only** — Not production-ready. No exchange connectivity included.
+**Research & Education Only** — Not production-ready. No exchange connectivity included.
 
-🚨 **PROPRIETARY LICENSE** — Commercial use prohibited. Written permission required. Contact: krishna@krishnabajpai.me
+**PROPRIETARY LICENSE** — Commercial use prohibited. Written permission required. Contact: krishna@krishnabajpai.me
 
-## 📊 Performance Snapshot
+## Performance Snapshot
 
 <div align="center">
 
-| 🎯 **Component** | ⚡ **Median** | 📈 **p99** | 🔝 **p99.9** | 
+| **Component** | **Median** | **p99** | **p99.9** | 
 |------------------|--------------|-----------|--------------|
 | Market Data Ingestion | **87 ns** | 124 ns | 201 ns |
 | Signal Extraction (SIMD) | **40 ns** | 48 ns | 67 ns |
@@ -79,57 +79,57 @@ A **transparent, deterministic execution engine** that:
 | **End-to-End Decision** | **890 ns** | **921 ns** | **1047 ns** |
 | Order Serialization | **34 ns** | 41 ns | 58 ns |
 
-**🔬 Measurement Precision:** ±5ns (TSC jitter) | ±17ns (PTP offset)  
-**🖥️ Test Hardware:** Intel Xeon Platinum 8280 @ 2.7GHz, isolated core, RT kernel
+**Measurement Precision:** ±5ns (TSC jitter) | ±17ns (PTP offset)  
+**Test Hardware:** Intel Xeon Platinum 8280 @ 2.7GHz, isolated core, RT kernel
 
 </div>
 
 ---
 
-## 🔥 Key Features
+## Key Features
 
 <table>
 <tr>
 <td width="50%">
 
-### ⚡ **Performance**
-- 🚀 Sub-microsecond decision latency
-- 🔄 Zero-copy data paths
-- 🧵 Lock-free SPSC/MPSC queues
-- 💾 Cache-aligned data structures
-- 🎯 SIMD-optimized computations (AVX-512)
+### **Performance**
+- Sub-microsecond decision latency
+- Zero-copy data paths
+- Lock-free SPSC/MPSC queues
+- Cache-aligned data structures
+- SIMD-optimized computations (AVX-512)
 
 </td>
 <td width="50%">
 
-### 🎯 **Determinism**
-- 🔁 Bit-identical replay guarantees
-- 📝 Event-driven scheduling
-- 🎲 Fixed RNG seeds
-- 🔒 Pre-allocated memory pools
-- ⏱️ TSC-level timestamp precision
+### **Determinism**
+- Bit-identical replay guarantees
+- Event-driven scheduling
+- Fixed RNG seeds
+- Pre-allocated memory pools
+- TSC-level timestamp precision
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🏗️ **Architecture**
-- 🌐 Kernel-bypass NIC simulation
-- 🧠 Multivariate Hawkes process
-- 📊 Avellaneda-Stoikov market making
-- 🛡️ Adaptive risk management
-- 🔌 C++/Rust FFI integration
+### **Architecture**
+- Kernel-bypass NIC simulation
+- Multivariate Hawkes process
+- Avellaneda-Stoikov market making
+- Adaptive risk management
+- C++/Rust FFI integration
 
 </td>
 <td width="50%">
 
-### 📈 **Observability**
-- 📊 Real-time metrics dashboard
-- 📝 Multi-layer audit logging
-- 🔍 SHA-256 replay verification
-- ⏱️ Nanosecond-level tracing
-- 📉 Latency breakdown analysis
+### **Observability**
+- Real-time metrics dashboard
+- Multi-layer audit logging
+- SHA-256 replay verification
+- Nanosecond-level tracing
+- Latency breakdown analysis
 
 </td>
 </tr>
@@ -137,35 +137,35 @@ A **transparent, deterministic execution engine** that:
 
 ---
 
-## 🎬 Quick Start
+## Quick Start
 
 **Get running in 60 seconds:**
 
 ```bash
-# 1️⃣ Clone the repository
+# 1. Clone the repository
 git clone https://github.com/krish567366/submicro-execution-engine.git
 cd submicro-execution-engine
 
-# 2️⃣ Build the system (automatic optimization flags)
+# 2. Build the system (automatic optimization flags)
 ./build_all.sh
 
-# 3️⃣ Run deterministic backtest
+# 3. Run deterministic backtest
 ./run_backtest.py
 
-# 4️⃣ View results
+# 4. View results
 python3 verify_latency.py
 open dashboard/index.html  # Interactive metrics dashboard
 ```
 
 <details>
-<summary><b>📺 Expected Output (click to expand)</b></summary>
+<summary><b>Expected Output (click to expand)</b></summary>
 
 ```
 === Low-Latency Trading System ===
-✓ Market data ingestion: 87ns median
-✓ Signal extraction: 40ns median  
-✓ Hawkes update: 150ns median
-✓ Decision latency: 890ns median
+Market data ingestion: 87ns median
+Signal extraction: 40ns median  
+Hawkes update: 150ns median
+Decision latency: 890ns median
 
 --- Cycle: 1000 ---
 Mid Price: $100.05
@@ -174,66 +174,66 @@ Active Quotes: Bid=100.04 Ask=100.06 Spread=2.00 bps
 Hawkes: Buy=12.456 Sell=11.234 Imbalance=0.052
 Regime: NORMAL (multiplier=1.0)
 Last Cycle Latency: 847 ns (0.847 µs)
-✓ Determinism verified: SHA-256 match
+Determinism verified: SHA-256 match
 ```
 
 </details>
 
 ---
 
-## 🏛️ Architecture Overview
+## Architecture Overview
 
 <div align="center">
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         📡 Market Data Feed (Simulated)                      │
+│                         Market Data Feed (Simulated)                         │
 │                    Kernel-Bypass NIC • Zero-Copy DMA Transfer                │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │ 87ns median
                                 ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    🔄 Lock-Free Ring Buffer (SPSC)                           │
+│                    Lock-Free Ring Buffer (SPSC)                              │
 │              Power-of-2 Size • Cache-Line Aligned • No Allocations           │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │ O(1) operations
                                 ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                   📖 Order Book Reconstruction                               │
+│                   Order Book Reconstruction                                  │
 │            Price-Level Aggregation • L2 Depth Tracking                       │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │
                 ┌───────────────┴───────────────┐
                 ▼                               ▼
 ┌─────────────────────────────┐   ┌─────────────────────────────────────────┐
-│   🔥 Hawkes Process Engine   │   │  📊 Microstructure Features             │
-│   • Self/Cross Excitation    │   │  • Deep OFI (10 levels)                 │
-│   • Power-Law Kernel         │   │  • Order Book Imbalance                 │
-│   • Buy/Sell Intensity       │   │  • Flow Toxicity (Kyle λ)               │
-└──────────────┬────────────────┘   └──────────────┬──────────────────────────┘
-               │  150ns median                     │ 40ns (SIMD)
-               └───────────────┬───────────────────┘
+│   Hawkes Process Engine     │   │  Microstructure Features                │
+│   • Self/Cross Excitation   │   │  • Deep OFI (10 levels)                │
+│   • Power-Law Kernel        │   │  • Order Book Imbalance                │
+│   • Buy/Sell Intensity      │   │  • Flow Toxicity (Kyle λ)              │
+└──────────────┬──────────────┘   └──────────────┬──────────────────────────┘
+               │  150ns median                   │ 40ns (SIMD)
+               └───────────────┬─────────────────┘
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                  🧠 FPGA DNN Inference (Simulated)                           │
+│                  FPGA DNN Inference (Simulated)                              │
 │              12 Features → 8 Hidden → 3 Outputs • 400ns Fixed                │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│              💰 Avellaneda-Stoikov Market Making Strategy                    │
+│              Avellaneda-Stoikov Market Making Strategy                       │
 │        HJB Equation • Inventory Skew • Latency-Aware Pricing                 │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │ 890ns E2E
                                 ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    🛡️ Risk Control (Pre-Trade + Kill-Switch)                │
+│                    Risk Control (Pre-Trade + Kill-Switch)                    │
 │          Position Limits • Regime Detection • Atomic Checks                  │
 └───────────────────────────────┬─────────────────────────────────────────────┘
                                 │ 34ns serialization
                                 ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                       📤 Order Submission                                    │
+│                       Order Submission                                       │
 │                  Pre-Serialized Orders • Zero Copy                           │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -244,14 +244,14 @@ Last Cycle Latency: 847 ns (0.847 µs)
 
 ---
 
-## 🎯 Determinism & Reproducibility
+## Determinism & Reproducibility
 
 One of the system's **core guarantees** is bit-identical replay capability:
 
-✅ **Fixed RNG seeds** — Deterministic random number generation  
-✅ **Event-driven scheduling** — No wall-clock dependencies  
-✅ **Pre-allocated memory** — No allocator non-determinism  
-✅ **Timestamp-ordered events** — Consistent processing order  
+**Fixed RNG seeds** — Deterministic random number generation  
+**Event-driven scheduling** — No wall-clock dependencies  
+**Pre-allocated memory** — No allocator non-determinism  
+**Timestamp-ordered events** — Consistent processing order  
 
 ### Verification
 
@@ -262,19 +262,19 @@ One of the system's **core guarantees** is bit-identical replay capability:
 # Verify deterministic replay
 cd logs
 sha256sum -c MANIFEST.sha256
-✓ strategy_trace.log: OK
-✓ order_flow.log: OK
-✓ latency_metrics.log: OK
+strategy_trace.log: OK
+order_flow.log: OK
+latency_metrics.log: OK
 ```
 
 **TSC-level reproducibility proof:** See `logs/strategy_trace.log`
 
 ---
 
-## 📚 Complete Documentation
+## Complete Documentation
 
-| 📄 Document | Description |
-|------------|-------------|
+| Document | Description |
+|----------|-------------|
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Order path, cache layout, thread model |
 | [`BENCHMARK_GUIDE.md`](BENCHMARK_GUIDE.md) | Latency measurement methodology |
 | [`LATENCY_BUDGET.md`](LATENCY_BUDGET.md) | Component-level breakdown |
@@ -284,12 +284,12 @@ sha256sum -c MANIFEST.sha256
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Here's how to get started:
 
 <details>
-<summary><b>🐛 Report a Bug</b></summary>
+<summary><b>Report a Bug</b></summary>
 
 Open an issue with:
 - System configuration (CPU, OS, compiler)
@@ -300,7 +300,7 @@ Open an issue with:
 </details>
 
 <details>
-<summary><b>💡 Propose a Feature</b></summary>
+<summary><b>Propose a Feature</b></summary>
 
 1. Check existing issues/PRs
 2. Open an issue describing the feature
@@ -310,7 +310,7 @@ Open an issue with:
 </details>
 
 <details>
-<summary><b>🔧 Submit a Pull Request</b></summary>
+<summary><b>Submit a Pull Request</b></summary>
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -362,25 +362,25 @@ Open an issue with:
 
 ---
 
-## ⚠️ Important Disclaimers
+## Important Disclaimers
 
 <div align="center">
 
-### 🚨 **RESEARCH & EDUCATION ONLY** 🚨
+### **RESEARCH & EDUCATION ONLY**
 
 </div>
 
 This system is **NOT**:
-- ❌ Production-ready trading software
-- ❌ Connected to any exchanges
-- ❌ Financial advice or recommendation
-- ❌ Guaranteed to be profitable
+- Production-ready trading software
+- Connected to any exchanges
+- Financial advice or recommendation
+- Guaranteed to be profitable
 
 This system **IS**:
-- ✅ A research framework
-- ✅ An educational tool
-- ✅ A latency benchmarking platform
-- ✅ A deterministic execution skeleton
+- A research framework
+- An educational tool
+- A latency benchmarking platform
+- A deterministic execution skeleton
 
 **Real production HFT requires:**
 - Hardware FPGA acceleration (Xilinx, Altera)
@@ -390,11 +390,11 @@ This system **IS**:
 - Risk management infrastructure
 - Extensive testing and regulatory approval
 
-**⚖️ Legal:** No warranty. Use at your own risk. See LICENSE for details.
+**Legal:** No warranty. Use at your own risk. See LICENSE for details.
 
 ---
 
-## 📧 Contact & Community
+## Contact & Community
 
 <div align="center">
 
@@ -417,21 +417,21 @@ This system **IS**:
 
 <div align="center">
 
-## 🚀 **Built for Speed. Designed for Reliability. Optimized for Discovery.**
+## **Built for Speed. Designed for Reliability. Optimized for Discovery.**
 
-### If you find this useful, please ⭐ **star the repository** ⭐
+### If you find this useful, please star the repository
 
-<sub>Made with ❤️ by quantitative systems engineers</sub>
+<sub>Made with care by quantitative systems engineers</sub>
 
 ---
 
-**📊 Trading • ⚡ Low-Latency • 🔬 Research • 💻 Open Source**
+**Trading • Low-Latency • Research • Open Source**
 
 </div>
 
 ---
 
-## 📝 License
+## License
 
 **PROPRIETARY LICENSE** - See [LICENSE](LICENSE) file for details
 
