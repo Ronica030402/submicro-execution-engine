@@ -17,9 +17,9 @@ import pandas as pd
 from datetime import datetime
 import random
 
-# ============================================================================
+# ====
 # Configuration
-# ============================================================================
+# ====
 DURATION_SECONDS = 10.0
 EVENTS_PER_SECOND = 10000  # ~100ns between events
 TOTAL_EVENTS = int(DURATION_SECONDS * EVENTS_PER_SECOND)
@@ -51,9 +51,9 @@ print(f"  Burst Duration: {ALPHA_BURST_DURATION_TICKS} ticks (~{ALPHA_BURST_DURA
 print(f"  Burst Strength: {ALPHA_BURST_STRENGTH*100}% directional bias")
 print()
 
-# ============================================================================
+# ====
 # Initialize State
-# ============================================================================
+# ====
 np.random.seed(42)
 random.seed(42)
 
@@ -73,9 +73,9 @@ alpha_burst_direction = 0  # +1 for buy pressure, -1 for sell pressure
 alpha_burst_remaining = 0
 alpha_bursts_generated = 0
 
-# ============================================================================
+# ====
 # Helper Functions
-# ============================================================================
+# ====
 
 def round_to_tick(price):
     """Round price to nearest tick"""
@@ -103,9 +103,9 @@ def generate_level():
     level = int(np.random.exponential(2))
     return min(level, 10)
 
-# ============================================================================
+# ====
 # Generate Events with Embedded Alpha
-# ============================================================================
+# ====
 print("Generating events...")
 
 for i in range(TOTAL_EVENTS):
@@ -113,9 +113,9 @@ for i in range(TOTAL_EVENTS):
     time_delta_ns = int(np.random.uniform(80, 120))  # 80-120ns jitter
     current_time_ns += time_delta_ns
     
-    # ========================================================================
+    # 
     # ALPHA BURST LOGIC: Create persistent order flow imbalances
-    # ========================================================================
+    # 
     
     # Check if we should start a new alpha burst
     if not in_alpha_burst and i % 100 == 0:  # Check every 100 ticks
@@ -153,9 +153,9 @@ for i in range(TOTAL_EVENTS):
             else:
                 event_side = random.choice(['B', 'S'])
     
-    # ========================================================================
+    # 
     # Generate Event Details
-    # ========================================================================
+    # 
     
     event_type = generate_event_type()
     size = generate_size()
@@ -183,9 +183,9 @@ for i in range(TOTAL_EVENTS):
     
     order_id_counter += 1
     
-    # ========================================================================
+    # 
     # Price Dynamics: Small random walk with mean reversion
-    # ========================================================================
+    # 
     
     if i % 500 == 0:  # Update prices periodically
         # Random walk
@@ -200,9 +200,9 @@ for i in range(TOTAL_EVENTS):
         bid_price = mid_price - (SPREAD_TICKS / 2) * TICK_SIZE
         ask_price = mid_price + (SPREAD_TICKS / 2) * TICK_SIZE
 
-# ============================================================================
+# ====
 # Create DataFrame and Save
-# ============================================================================
+# ====
 print(f"\nAlpha bursts generated: {alpha_bursts_generated}")
 print(f"Expected profitable signals: ~{alpha_bursts_generated} (each lasting {ALPHA_BURST_DURATION_TICKS} ticks)")
 print()
@@ -220,14 +220,14 @@ output_file = 'synthetic_ticks_with_alpha.csv'
 df.to_csv(output_file, index=False, header=False)
 
 print("="*70)
-print(f"✓ Generated {len(df):,} events")
-print(f"✓ Saved to: {output_file}")
-print(f"✓ Duration: {(df['ts_us'].iloc[-1] - df['ts_us'].iloc[0]) / 1e6:.2f} seconds")
+print(f"Generated {len(df):,} events")
+print(f"Saved to: {output_file}")
+print(f"Duration: {(df['ts_us'].iloc[-1] - df['ts_us'].iloc[0]) / 1e6:.2f} seconds")
 print()
 
-# ============================================================================
+# ====
 # Analyze Generated Data
-# ============================================================================
+# ====
 print("Data Quality Analysis:")
 print("-"*70)
 
@@ -259,7 +259,7 @@ print(f"    Mean: {df['size'].mean():.1f}")
 print(f"    Median: {df['size'].median():.0f}")
 
 print("\n" + "="*70)
-print("✓ Data generation complete!")
+print("Data generation complete!")
 print()
 print("Next steps:")
 print("  1. Update backtest_demo.cpp to use 'synthetic_ticks_with_alpha.csv'")
