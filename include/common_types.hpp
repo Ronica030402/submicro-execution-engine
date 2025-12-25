@@ -7,9 +7,7 @@
 
 namespace hft {
 
-// ============================================================================
 // Timestamp Utilities (Nanosecond precision)
-// ============================================================================
 
 using Timestamp = std::chrono::time_point<std::chrono::steady_clock>;
 using Duration = std::chrono::nanoseconds;
@@ -23,18 +21,14 @@ inline Timestamp now() {
     return std::chrono::steady_clock::now();
 }
 
-// ============================================================================
 // Order Side Enum
-// ============================================================================
 
 enum class Side : uint8_t {
     BUY = 0,
     SELL = 1
 };
 
-// ============================================================================
 // Market Data Structures (Cache-line aligned for zero-copy)
-// ============================================================================
 
 struct alignas(64) MarketTick {
     Timestamp timestamp;
@@ -65,9 +59,7 @@ struct alignas(64) MarketTick {
     }
 };
 
-// ============================================================================
 // Order Structure
-// ============================================================================
 
 struct alignas(64) Order {
     uint64_t order_id;
@@ -88,9 +80,7 @@ struct alignas(64) Order {
           submit_time(now()), venue_id(0), is_active(true) {}
 };
 
-// ============================================================================
 // Quote Pair (Bid/Ask)
-// ============================================================================
 
 struct QuotePair {
     double bid_price;
@@ -106,9 +96,7 @@ struct QuotePair {
                   generated_at(now()) {}
 };
 
-// ============================================================================
 // Trading Event (for Hawkes Process)
-// ============================================================================
 
 struct TradingEvent {
     Timestamp arrival_time;
@@ -123,9 +111,7 @@ struct TradingEvent {
         : arrival_time(t), event_type(type), asset_id(asset), intensity(0.0) {}
 };
 
-// ============================================================================
 // Risk Regime
-// ============================================================================
 
 enum class MarketRegime : uint8_t {
     NORMAL = 0,
@@ -134,4 +120,4 @@ enum class MarketRegime : uint8_t {
     HALTED = 3
 };
 
-} // namespace hft
+}
