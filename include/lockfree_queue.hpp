@@ -3,101 +3,58 @@
 #include <atomic>
 #include <array>
 #include <cstddef>
-#include <type_traits>
 
 namespace hft {
 
-// ============================================================================
-// Lock-Free Single-Producer Single-Consumer (SPSC) Ring Buffer
-// Optimized for zero-copy, cache-friendly market data ingestion
-// ============================================================================
-
-template<typename T, size_t Capacity>
-class LockFreeQueue {
-    static_assert((Capacity & (Capacity - 1)) == 0, 
-                  "Capacity must be power of 2 for fast modulo");
-    static_assert(std::is_trivially_copyable_v<T>,
-                  "T must be trivially copyable for zero-copy semantics");
+// spsc queue - single producer single consumer
+// NOTE: T needs to be trivially copyable or this breaks badly
+template<typename T, size_t N>
+class SPSCQueue {
+    static_assert((N & (N - 1)) == 0, "size must be power of 2");
+    
+private:
+    alignas(64) std::atomic<size_t> head_{0};
+    alignas(64) std::atomic<size_t> tail_{0};  
+    std::array<T, N> buf_;
     
 public:
-    LockFreeQueue() : head_(0), tail_(0) {}
+    SPSCQueue() = default;
+    SPSCQueue(const SPSCQueue&) = delete;
+    SPSCQueue& operator=(const SPSCQueue&) = delete;
     
-    // Disable copy/move
-    LockFreeQueue(const LockFreeQueue&) = delete;
-    LockFreeQueue& operator=(const LockFreeQueue&) = delete;
-    
-    // ========================================================================
-    // Producer: Push (non-blocking if full, returns false)
-    // ========================================================================
     bool push(const T& item) {
-        const size_t current_tail = tail_.load(std::memory_order_relaxed);
-        const size_t next_tail = increment(current_tail);
+        auto t = tail_.load(std::memory_order_relaxed);
+        auto next_t = (t + 1) & (N - 1);
         
-        // Check if queue is full
-        if (next_tail == head_.load(std::memory_order_acquire)) {
-            return false;  // Queue full
-        }
+        if (next_t == head_.load(std::memory_order_acquire))
+            return false; // full
         
-        // Zero-copy placement
-        buffer_[current_tail] = item;
-        
-        // Publish the item
-        tail_.store(next_tail, std::memory_order_release);
+        buf_[t] = item;
+        tail_.store(next_t, std::memory_order_release);
         return true;
     }
     
-    // ========================================================================
-    // Producer: Emplace (construct in-place)
-    // ========================================================================
-    template<typename... Args>
-    bool emplace(Args&&... args) {
-        const size_t current_tail = tail_.load(std::memory_order_relaxed);
-        const size_t next_tail = increment(current_tail);
-        
-        if (next_tail == head_.load(std::memory_order_acquire)) {
-            return false;
-        }
-        
-        // Construct directly in buffer (true zero-copy)
-        new (&buffer_[current_tail]) T(std::forward<Args>(args)...);
-        
-        tail_.store(next_tail, std::memory_order_release);
-        return true;
-    }
-    
-    // ========================================================================
-    // Consumer: Pop (non-blocking if empty, returns false)
-    // ========================================================================
     bool pop(T& item) {
-        const size_t current_head = head_.load(std::memory_order_relaxed);
+        auto h = head_.load(std::memory_order_relaxed);
         
-        // Check if queue is empty
-        if (current_head == tail_.load(std::memory_order_acquire)) {
-            return false;  // Queue empty
-        }
+        if (h == tail_.load(std::memory_order_acquire))
+            return false; // empty
         
-        // Zero-copy read
-        item = buffer_[current_head];
-        
-        // Advance head
-        head_.store(increment(current_head), std::memory_order_release);
+        item = buf_[h];
+        head_.store((h + 1) & (N - 1), std::memory_order_release);
         return true;
     }
     
-    // ========================================================================
-    // Consumer: Peek (read without removing)
-    // ========================================================================
-    const T* peek() const {
-        const size_t current_head = head_.load(std::memory_order_relaxed);
-        
-        if (current_head == tail_.load(std::memory_order_acquire)) {
-            return nullptr;  // Queue empty
-        }
-        
-        return &buffer_[current_head];
+    bool empty() const {
+        return head_.load(std::memory_order_acquire) == 
+               tail_.load(std::memory_order_acquire);
     }
     
-    // ========================================================================
+    size_t size() const {
+        auto h = head_.load(std::memory_order_acquire);
+        auto t = tail_.load(std::memory_order_acquire);
+        return (t - h) & (N - 1);
+    }
     // Status queries
     // ========================================================================
     bool empty() const {

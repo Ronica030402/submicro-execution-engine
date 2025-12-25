@@ -8,76 +8,78 @@
 
 namespace hft {
 
-// ============================================================================
-// Multivariate Hawkes Process with Power-Law Kernel
-// Models self-exciting point processes for buy/sell order arrivals
-// Intensity: λ_i(t) = μ_i + Σ_j Σ_{t_k < t} α_ij * K(t - t_k)
-// Power-Law Kernel: K(τ) = (β + τ)^(-γ) where γ > 1
-// ============================================================================
-
-class HawkesIntensityEngine {
+// hawkes process intensity model
+// lambda_i(t) = mu_i + sum_j sum_k alpha_ij * phi(t - t_k)
+// using power law kernel phi(t) = (beta + t)^(-gamma)
+class HawkesEngine {
+private:
+    double mu_b, mu_s;      // baseline intensities
+    double alpha_self;      // self excitation  
+    double alpha_cross;     // cross excitation
+    double beta, gamma;     // kernel params
+    
+    std::deque<TradingEvent> buy_hist, sell_hist;
+    size_t max_hist;
+    
+    double lambda_b, lambda_s;  // current intensities
+    uint64_t last_update;
+    
+    // recalc intensity - this gets called a lot so keep it fast
+    void recalc() {
+        auto now = get_time_ns();
+        
+        lambda_b = mu_b;
+        lambda_s = mu_s;
+        
+        // self excitation from buy events
+        for (auto& e : buy_hist) {
+            double dt = (now - e.arrival_time) * 1e-9;  // ns to seconds
+            if (dt > 0) {
+                double k = std::pow(beta + dt, -gamma);
+                lambda_b += alpha_self * k;
+                lambda_s += alpha_cross * k;
+            }
+        }
+        
+        // self excitation from sell events  
+        for (auto& e : sell_hist) {
+            double dt = (now - e.arrival_time) * 1e-9;
+            if (dt > 0) {
+                double k = std::pow(beta + dt, -gamma);
+                lambda_s += alpha_self * k;
+                lambda_b += alpha_cross * k;
+            }
+        }
+        
+        last_update = now;
+    }
+    
 public:
-    // ========================================================================
-    // Constructor
-    // ========================================================================
-    HawkesIntensityEngine(
-        double baseline_buy,          // μ_buy: baseline intensity for buy events
-        double baseline_sell,         // μ_sell: baseline intensity for sell events
-        double alpha_self,            // α_ii: self-excitation parameter
-        double alpha_cross,           // α_ij: cross-excitation parameter
-        double power_law_beta,        // β: power-law kernel offset (prevents singularity)
-        double power_law_gamma,       // γ: power-law decay exponent (> 1)
-        size_t max_history = 1000     // Maximum events to retain in memory
-    ) : mu_buy_(baseline_buy),
-        mu_sell_(baseline_sell),
-        alpha_self_(alpha_self),
-        alpha_cross_(alpha_cross),
-        beta_(power_law_beta),
-        gamma_(power_law_gamma),
-        max_history_(max_history),
-        current_time_(now()),
-        intensity_buy_(baseline_buy),
-        intensity_sell_(baseline_sell) {
+    HawkesEngine(double mu_buy = 10.0, double mu_sell = 10.0,
+                 double a_self = 0.5, double a_cross = 0.2,
+                 double b = 1e-3, double g = 1.5, size_t hist = 1000) 
+        : mu_b(mu_buy), mu_s(mu_sell), alpha_self(a_self), alpha_cross(a_cross),
+          beta(b), gamma(g), max_hist(hist), lambda_b(mu_buy), lambda_s(mu_sell),
+          last_update(0) {
         
-        // Validate parameters
-        if (gamma_ <= 1.0) {
-            gamma_ = 1.5;  // Ensure convergence
-        }
-        if (beta_ <= 0.0) {
-            beta_ = 1e-6;  // Prevent division by zero
-        }
+        if (gamma <= 1.0) gamma = 1.5;  // prevent divergence
+        if (beta <= 0) beta = 1e-6;     // prevent div by 0
     }
     
-    // ========================================================================
-    // Update intensity with new market event (O(N) but with efficient pruning)
-    // This is called on every trade or significant quote update
-    // ========================================================================
     void update(const TradingEvent& event) {
-        current_time_ = event.arrival_time;
-        
-        // Add event to history
         if (event.event_type == Side::BUY) {
-            buy_events_.push_back(event);
-            if (buy_events_.size() > max_history_) {
-                buy_events_.pop_front();
-            }
+            buy_hist.push_back(event);
+            if (buy_hist.size() > max_hist) buy_hist.pop_front();
         } else {
-            sell_events_.push_back(event);
-            if (sell_events_.size() > max_history_) {
-                sell_events_.pop_front();
-            }
+            sell_hist.push_back(event);
+            if (sell_hist.size() > max_hist) sell_hist.pop_front();
         }
         
-        // Recalculate intensities
-        recalculate_intensity();
+        recalc();
     }
     
-    // ========================================================================
-    // Get current intensity for buy orders
-    // ========================================================================
-    double get_buy_intensity() const {
-        return intensity_buy_;
-    }
+    double buy_intensity() const { return lambda_b; }
+    double sell_intensity() const { return lambda_s; }
     
     // ========================================================================
     // Get current intensity for sell orders

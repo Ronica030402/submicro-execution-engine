@@ -17,37 +17,16 @@
 #include <atomic>
 #include <csignal>
 #include <cmath>
-#include <sched.h>      // For CPU affinity
-#include <sys/mman.h>   // For mlockall
-
-// ============================================================================
-// CRITICAL DESIGN NOTE: 550ns MINIMUM LATENCY FLOOR
-// ============================================================================
-// This system enforces a MINIMUM 550ns execution latency (see line ~400).
-// 
-// WHY THIS MATTERS:
-// - Alpha signals with <500ns persistence are TOXIC (microstructure noise)
-// - Trading faster than 550ns leads to ADVERSE SELECTION and LOSSES
-// - Our profitable alpha (OBI from Hawkes) has 1-5ms persistence
-// - 550ns floor ensures we only trade on persistent institutional flow
-// 
-// EMPIRICAL EVIDENCE:
-//   200-400ns execution → Trading on noise → LOSSES
-//   550-890ns execution → Trading on OBI   → PROFITS ✓
-// 
-// DO NOT REMOVE THIS FLOOR without changing alpha source!
-// See ALPHA_ANALYSIS.md for full details.
-// ============================================================================
+#include <sched.h>
+#include <sys/mman.h>
 
 using namespace hft;
 
-// ============================================================================
-// Global state for signal handling
-// ============================================================================
-std::atomic<bool> g_shutdown_requested(false);
+// global shutdown flag
+std::atomic<bool> shutdown_requested{false};
 
-void signal_handler(int signal) {
-    if (signal == SIGINT || signal == SIGTERM) {
+void sigint_handler(int sig) {
+    if (sig == SIGINT || sig == SIGTERM) {
         g_shutdown_requested.store(true, std::memory_order_release);
         std::cout << "\nShutdown requested..." << std::endl;
     }

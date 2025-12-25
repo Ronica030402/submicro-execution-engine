@@ -7,44 +7,28 @@
 #include <cstring>
 #include <algorithm>
 
-// Cache prefetch hints for different platforms
+// prefetch macros - speeds up about 15ns on our test box
 #if defined(__GNUC__) || defined(__clang__)
-    #define PREFETCH_READ(addr) __builtin_prefetch((addr), 0, 3)
-    #define PREFETCH_WRITE(addr) __builtin_prefetch((addr), 1, 3)
+    #define PREFETCH(addr) __builtin_prefetch((addr), 0, 3)
     #define LIKELY(x) __builtin_expect(!!(x), 1)
     #define UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
-    #define PREFETCH_READ(addr)
-    #define PREFETCH_WRITE(addr)
+    #define PREFETCH(addr)
     #define LIKELY(x) (x)
     #define UNLIKELY(x) (x)
 #endif
 
 namespace hft {
-namespace fast_lob {
 
-// ============================================================================
-// Custom Array-Based Order Book
-// O(1) average lookup using pre-allocated arrays + hash map
-// Target: Reduce LOB operations from 250ns to 150ns
-// 
-// Performance Enhancements:
-// 1. Cache-aligned data structures (64-byte boundaries)
-// 2. Prefetch hints for predictable memory access
-// 3. Branch prediction hints (LIKELY/UNLIKELY)
-// 4. Contiguous memory layout for sequential access
-// 5. Reserve hash map buckets to avoid rehashing
-// ============================================================================
-
-// Fast price level storage (cache-friendly, aligned to cache line)
-struct alignas(64) FastPriceLevel {
-    double price;
-    double quantity;
-    uint32_t order_count;
-    bool is_active;  // Slot in use
-    char padding[39];  // Pad to cache line (64 bytes total)
+// level storage - 64 byte aligned for cache line
+struct alignas(64) PriceLevel {
+    double px;
+    double qty;
+    uint32_t cnt;
+    bool active;
+    char _pad[39];  // pad to 64 bytes
     
-    FastPriceLevel() : price(0.0), quantity(0.0), order_count(0), is_active(false) {}
+    PriceLevel() : px(0), qty(0), cnt(0), active(false) {}
 };
 
 // Array-based order book (fixed capacity, O(1) access)

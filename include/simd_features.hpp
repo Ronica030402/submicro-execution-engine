@@ -4,50 +4,37 @@
 #include <array>
 #include <cmath>
 
-// Platform-specific SIMD includes
-#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
-    #include <immintrin.h>  // AVX/AVX2/AVX-512 intrinsics for x86
+// x86 simd support
+#if defined(__x86_64__) || defined(_M_X64)
+    #include <immintrin.h>
     #if defined(__AVX512F__)
-        #define HAS_AVX512 1
-        #define SIMD_WIDTH 8
+        #define USE_AVX512 1
+        #define VWIDTH 8
     #elif defined(__AVX2__)
-        #define HAS_AVX2 1
-        #define SIMD_WIDTH 4
-    #else
-        #define SIMD_WIDTH 1
+        #define USE_AVX2 1  
+        #define VWIDTH 4
     #endif
-#elif defined(__aarch64__) || defined(_M_ARM64)
-    #include <arm_neon.h>  // NEON intrinsics for ARM
-    #define HAS_NEON 1
-    #define SIMD_WIDTH 2  // Process 2 doubles at once with NEON
-#else
-    #define SIMD_WIDTH 1  // Scalar fallback
+#elif defined(__aarch64__)
+    #include <arm_neon.h>
+    #define USE_NEON 1
+    #define VWIDTH 2
+#endif
+
+#ifndef VWIDTH
+#define VWIDTH 1
 #endif
 
 namespace hft {
-namespace simd_features {
 
-// ============================================================================
-// SIMD-Vectorized Feature Calculation
-// Uses AVX2/AVX-512 (x86) or NEON (ARM) to process multiple features in parallel
-// Target: Reduce feature calculation from 520ns to 420ns (-100ns)
-// ============================================================================
-
-// Aligned memory for SIMD operations
-struct alignas(64) SIMDFeatureVector {
-    std::array<double, 16> data;  // 16 features, 64-byte aligned
-    
-    SIMDFeatureVector() {
-        data.fill(0.0);
-    }
+// aligned feature array for simd ops
+struct alignas(64) Features {
+    std::array<double, 16> vals;
+    Features() { vals.fill(0.0); }
 };
 
-// ============================================================================
-// SIMD OFI Calculator (10 levels vectorized)
-// ============================================================================
-class SIMDOFICalculator {
-public:
-    SIMDOFICalculator() {
+// vectorized ofi calc - processes 10 levels at once
+class FastOFI {
+private:
         previous_bid_quantities_.fill(0.0);
         previous_ask_quantities_.fill(0.0);
         current_bid_quantities_.fill(0.0);
