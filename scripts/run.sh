@@ -12,7 +12,7 @@ echo ""
 
 # Check if running as root (needed for some optimizations)
 if [ "$EUID" -ne 0 ]; then 
-    echo "⚠️  Not running as root. Some optimizations will be skipped."
+    echo "  Not running as root. Some optimizations will be skipped."
     echo "   Run with sudo for best performance."
     echo ""
     SUDO=""
@@ -31,7 +31,7 @@ if [ ! -f "./build/hft_system" ]; then
     echo -e "${RED}Error: hft_system not found. Build first with ./build.sh${NC}"
     exit 1
 fi
-echo -e "${GREEN}✓ Binary found${NC}"
+echo -e "${GREEN}Binary found${NC}"
 echo ""
 
 echo "Step 2: Configuring system for low latency..."
@@ -42,7 +42,7 @@ if [ -n "$SUDO" ] || [ "$EUID" -eq 0 ]; then
     for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
         echo performance > "$cpu" 2>/dev/null || true
     done
-    echo -e "${GREEN}  ✓ CPU governor set${NC}"
+    echo -e "${GREEN}  CPU governor set${NC}"
 else
     echo -e "${YELLOW}  ⊘ Skipped (needs root)${NC}"
 fi
@@ -52,7 +52,7 @@ echo "  - Configuring huge pages (2MB)"
 if [ -n "$SUDO" ] || [ "$EUID" -eq 0 ]; then
     echo 512 > /proc/sys/vm/nr_hugepages 2>/dev/null || true
     HUGEPAGES=$(cat /proc/sys/vm/nr_hugepages)
-    echo -e "${GREEN}  ✓ Huge pages: $HUGEPAGES${NC}"
+    echo -e "${GREEN}  Huge pages: $HUGEPAGES${NC}"
 else
     echo -e "${YELLOW}  ⊘ Skipped (needs root)${NC}"
 fi
@@ -61,7 +61,7 @@ fi
 echo "  - Disabling transparent huge pages"
 if [ -n "$SUDO" ] || [ "$EUID" -eq 0 ]; then
     echo never > /sys/kernel/mm/transparent_hugepage/enabled 2>/dev/null || true
-    echo -e "${GREEN}  ✓ THP disabled${NC}"
+    echo -e "${GREEN}  THP disabled${NC}"
 else
     echo -e "${YELLOW}  ⊘ Skipped (needs root)${NC}"
 fi
@@ -70,7 +70,7 @@ fi
 echo "  - Disabling swap"
 if [ -n "$SUDO" ] || [ "$EUID" -eq 0 ]; then
     swapoff -a 2>/dev/null || true
-    echo -e "${GREEN}  ✓ Swap disabled${NC}"
+    echo -e "${GREEN}  Swap disabled${NC}"
 else
     echo -e "${YELLOW}  ⊘ Skipped (needs root)${NC}"
 fi
@@ -79,7 +79,7 @@ fi
 echo "  - Configuring real-time scheduling"
 if [ -n "$SUDO" ] || [ "$EUID" -eq 0 ]; then
     ulimit -r unlimited 2>/dev/null || true
-    echo -e "${GREEN}  ✓ RT priority limit raised${NC}"
+    echo -e "${GREEN}  RT priority limit raised${NC}"
 else
     echo -e "${YELLOW}  ⊘ Skipped (needs root)${NC}"
 fi
@@ -87,7 +87,7 @@ fi
 # Increase locked memory limit
 echo "  - Increasing locked memory limit"
 ulimit -l unlimited 2>/dev/null || true
-echo -e "${GREEN}  ✓ Memory lock limit raised${NC}"
+echo -e "${GREEN}  Memory lock limit raised${NC}"
 
 echo ""
 echo "Step 3: System information..."
