@@ -1,4 +1,4 @@
-# 📊 Real-Time Trading Dashboard Setup Guide
+# Real-Time Trading Dashboard Setup Guide
 
 ## Overview
 
@@ -12,7 +12,7 @@ This guide explains how to set up and use the beautiful real-time monitoring das
 
 ---
 
-## 🎨 Dashboard Features
+##  Dashboard Features
 
 ### Live Metrics Cards
 - **Total P&L**: Real-time profit/loss tracking
@@ -38,7 +38,7 @@ This guide explains how to set up and use the beautiful real-time monitoring das
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Step 1: Build with Dashboard Support
 
@@ -59,7 +59,7 @@ Run the HFT system (dashboard automatically starts on port 8080):
 
 You should see:
 ```
-[INIT] ✓ Real-Time Dashboard Server (http://localhost:8080)
+[INIT] Real-Time Dashboard Server (http://localhost:8080)
 Dashboard server started on port 8080
 Open http://localhost:8080 in your browser
 ```
@@ -73,10 +73,10 @@ http://localhost:8080
 ```
 
 You'll immediately see:
-- ✅ Live streaming metrics
-- ✅ Real-time charts updating every 100ms
-- ✅ Connection status indicator
-- ✅ Current trading activity
+-  Live streaming metrics
+-  Real-time charts updating every 100ms
+-  Connection status indicator
+-  Current trading activity
 
 ---
 
@@ -90,7 +90,7 @@ dashboard/
 
 ---
 
-## 🔧 Architecture
+## Architecture
 
 ### Backend: Metrics Collection (C++)
 
@@ -134,7 +134,7 @@ this.charts.pnl.update('none');  // Instant update, no animation
 
 ---
 
-## 📊 Metrics Explained
+## Metrics Explained
 
 ### Position & P&L Metrics
 
@@ -208,7 +208,7 @@ metrics_collector.export_to_csv("my_custom_export.csv");
 
 ---
 
-## 🎨 Customization
+##  Customization
 
 ### Change Dashboard Port
 
@@ -310,12 +310,12 @@ MetricsCollector metrics_collector(50000);  // 50K snapshots (default: 10K)
 
 ---
 
-## 📈 Example Monitoring Session
+##  Example Monitoring Session
 
 ### Startup
 
 ```
-[INIT] ✓ Real-Time Dashboard Server (http://localhost:8080)
+[INIT] Real-Time Dashboard Server (http://localhost:8080)
 Dashboard server started on port 8080
 Open http://localhost:8080 in your browser
 
@@ -425,7 +425,7 @@ Max Latency: 1250.5 µs
 
 ---
 
-## 🎯 Advanced Features
+##  Advanced Features
 
 ### Remote Monitoring
 
@@ -467,7 +467,7 @@ http://YOUR_SERVER_IP:8080
 
 ---
 
-## 📚 API Reference
+##  API Reference
 
 ### MetricsCollector Methods
 
@@ -520,17 +520,17 @@ SummaryStats get_summary();
 
 ---
 
-## ✅ Summary
+##  Summary
 
 You now have a **production-grade monitoring dashboard** that:
 
-- ✅ Streams real-time metrics via WebSocket
-- ✅ Displays beautiful interactive charts
-- ✅ Provides 100ms update frequency
-- ✅ Exports historical data to CSV
-- ✅ Adds **zero latency overhead** (lock-free design)
-- ✅ Works on desktop and mobile browsers
-- ✅ Supports multiple simultaneous viewers
+-  Streams real-time metrics via WebSocket
+-  Displays beautiful interactive charts
+-  Provides 100ms update frequency
+-  Exports historical data to CSV
+-  Adds **zero latency overhead** (lock-free design)
+-  Works on desktop and mobile browsers
+-  Supports multiple simultaneous viewers
 
 **Just run your HFT system and open http://localhost:8080!**
 
