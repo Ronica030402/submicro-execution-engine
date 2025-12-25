@@ -7,17 +7,17 @@ import pandas as pd
 import numpy as np
 
 print("=" * 80)
-print("  🚀 HFT SYSTEM BACKTEST - PROFIT ANALYSIS")
+print("  HFT SYSTEM BACKTEST - PROFIT ANALYSIS")
 print("=" * 80)
 print()
 
 # Load the synthetic tick data
 print("Loading synthetic_ticks.csv...")
 ticks = pd.read_csv('synthetic_ticks.csv')
-print(f"✅ Loaded {len(ticks):,} ticks\n")
+print(f" Loaded {len(ticks):,} ticks\n")
 
 # Show data info
-print(f"📊 Data Overview:")
+print(f"Data Overview:")
 print(f"   Time Range:     {ticks['ts_us'].iloc[0]} to {ticks['ts_us'].iloc[-1]}")
 print(f"   Duration:       {(ticks['ts_us'].iloc[-1] - ticks['ts_us'].iloc[0]) / 1e6:.2f} seconds")
 print(f"   Event Types:    {ticks['event_type'].unique()}")
@@ -74,7 +74,7 @@ for idx, row in ticks.iterrows():
         spreads.append(best_ask - best_bid)
         timestamps.append(row['ts_us'])
 
-print(f"✅ Built {len(bid_prices)} order book snapshots\n")
+print(f" Built {len(bid_prices)} order book snapshots\n")
 
 # Create market data DataFrame
 market_data = pd.DataFrame({
@@ -88,7 +88,7 @@ market_data = pd.DataFrame({
 })
 
 print("=" * 80)
-print("  💰 MARKET MAKING SIMULATION")
+print("  MARKET MAKING SIMULATION")
 print("=" * 80)
 print()
 
@@ -155,7 +155,7 @@ for idx in range(1, len(market_data)):
     total_pnl = (cash - initial_cash) + unrealized_pnl
     pnl_history.append(total_pnl)
 
-print(f"✅ Simulation complete\n")
+print(f" Simulation complete\n")
 
 # Calculate results
 trades_df = pd.DataFrame(trades) if trades else pd.DataFrame()
@@ -163,7 +163,7 @@ final_pnl = pnl_history[-1] if pnl_history else 0
 total_trades = len(trades)
 
 print("=" * 80)
-print("  📈 RESULTS")
+print("  RESULTS")
 print("=" * 80)
 print()
 
@@ -173,7 +173,7 @@ print(f"   Final Position:         {position}")
 print(f"   Final Cash:             ${cash:,.2f}")
 print()
 
-print(f"💰 Profit & Loss:")
+print(f"Profit & Loss:")
 print(f"   Initial Capital:        ${initial_cash:,.2f}")
 print(f"   Final Cash + Position:  ${cash + (position * market_data.iloc[-1]['mid']):,.2f}")
 print(f"   Total P&L:              ${final_pnl:,.2f}")
@@ -185,7 +185,7 @@ if total_trades > 0:
     trades_per_second = total_trades / duration_seconds
     pnl_per_trade = final_pnl / total_trades
     
-    print(f"⚡ Performance:")
+    print(f"Performance:")
     print(f"   Duration:               {duration_seconds:.2f} seconds")
     print(f"   Trades/Second:          {trades_per_second:.2f}")
     print(f"   P&L per Trade:          ${pnl_per_trade:.4f}")
@@ -195,18 +195,18 @@ if total_trades > 0:
     seconds_per_day = 6.5 * 3600  # Trading hours
     daily_pnl = (final_pnl / duration_seconds) * seconds_per_day
     
-    print(f"📊 Projections:")
+    print(f"Projections:")
     print(f"   Daily P&L (projected):  ${daily_pnl:,.2f}")
     print(f"   Monthly (21 days):      ${daily_pnl * 21:,.2f}")
     print(f"   Annual (252 days):      ${daily_pnl * 252:,.2f}")
     print()
 
-print(f"📉 Market Statistics:")
+print(f"Market Statistics:")
 print(f"   Avg Mid Price:          ${market_data['mid'].mean():.2f}")
 print(f"   Avg Spread:             ${market_data['spread'].mean():.4f}")
 print(f"   Spread (bps):           {(market_data['spread'].mean() / market_data['mid'].mean() * 10000):.2f} bps")
 print()
 
 print("=" * 80)
-print("✅ Backtest Complete!")
+print(" Backtest Complete!")
 print("=" * 80)
