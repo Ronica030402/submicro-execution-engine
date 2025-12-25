@@ -24,9 +24,9 @@
 namespace hft {
 namespace compile_time {
 
-// ============================================================================
+// ====
 // Strategy Type Tags (Zero-overhead compile-time selection)
-// ============================================================================
+// ====
 
 struct AvellanedaStoikovStrategy {};
 struct GueantLehalleTavinStrategy {};
@@ -37,9 +37,9 @@ struct StrictRiskPolicy {};
 struct ModerateRiskPolicy {};
 struct AggressiveRiskPolicy {};
 
-// ============================================================================
+// ====
 // Constexpr Mathematical Functions (Compile-time evaluation)
-// ============================================================================
+// ====
 
 namespace math {
 
@@ -81,9 +81,9 @@ constexpr double clamp(double x, double min_val, double max_val) {
 
 } // namespace math
 
-// ============================================================================
+// ====
 // Constexpr Risk Parameters (Evaluated at compile time)
-// ============================================================================
+// ====
 
 template<typename RiskPolicy>
 struct RiskParameters {
@@ -117,9 +117,9 @@ struct RiskParameters<AggressiveRiskPolicy> {
     static constexpr bool ALLOW_NAKED_SHORTS = true;
 };
 
-// ============================================================================
+// ====
 // Compile-Time Risk Checker (Zero virtual dispatch)
-// ============================================================================
+// ====
 
 template<typename RiskPolicy>
 class CompileTimeRiskChecker {
@@ -191,9 +191,9 @@ public:
     }
 };
 
-// ============================================================================
+// ====
 // Compile-Time Strategy Parameters
-// ============================================================================
+// ====
 
 template<typename Strategy>
 struct StrategyParameters {
@@ -218,9 +218,9 @@ struct StrategyParameters<SimpleMarketMakingStrategy> {
     static constexpr double MAX_SPREAD_BPS = 20.0;
 };
 
-// ============================================================================
+// ====
 // Compile-Time Strategy Executor (Zero virtual dispatch)
-// ============================================================================
+// ====
 
 template<typename Strategy>
 class CompileTimeStrategyEngine {
@@ -347,9 +347,9 @@ private:
     }
 };
 
-// ============================================================================
+// ====
 // Type Aliases for Common Configurations
-// ============================================================================
+// ====
 
 // Most common configuration: Avellaneda-Stoikov + Moderate Risk
 using DefaultStrategyEngine = CompileTimeStrategyEngine<AvellanedaStoikovStrategy>;
@@ -363,9 +363,9 @@ using AggressiveRiskChecker = CompileTimeRiskChecker<AggressiveRiskPolicy>;
 using ConservativeStrategyEngine = CompileTimeStrategyEngine<SimpleMarketMakingStrategy>;
 using ConservativeRiskChecker = CompileTimeRiskChecker<StrictRiskPolicy>;
 
-// ============================================================================
+// ====
 // Usage Example
-// ============================================================================
+// ====
 
 /**
  * Example: Zero-overhead strategy execution
