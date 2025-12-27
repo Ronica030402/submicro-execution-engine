@@ -341,7 +341,7 @@ Full validation of kernel-bypass networking and FPGA-based inference requires ac
 
 The current repository focuses on architecture, interfaces, and software-level integration. Hardware-backed benchmarking and production-grade bitstreams are planned future work and would require dedicated hardware access and funding.
 
-**If you are interested in sponsoring hardware validation or collaborating on vendor-specific implementations, feel free to reach out.**
+**Hardware-specific NIC and FPGA integrations are available commercially. If you are interested in sponsoring hardware validation or collaborating on vendor-specific implementations, feel free to reach out.**
 
 ### Kernel-bypass NICs
 
