@@ -335,6 +335,8 @@ Open an issue with:
 
 ---
 
+## Hardware Validation & Commercial Support
+
 This repository is open for research and evaluation.
 
 Hardware-specific integrations (kernel-bypass NICs, FPGA inference pipelines), production hardening, and vendor-specific optimizations are not bundled due to hardware dependency, but are available commercially.
