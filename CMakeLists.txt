@@ -22,10 +22,11 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # ====
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     # Aggressive optimization flags for sub-microsecond latency
+    # Note: Enabled exceptions because the project uses them
     set(CMAKE_CXX_FLAGS_RELEASE 
         "-O3 -DNDEBUG -march=native -mtune=native -flto -ffast-math \
         -funroll-loops -finline-functions -fomit-frame-pointer \
-        -fno-exceptions -fno-rtti -pthread"
+        -pthread"
     )
     
     # Additional flags for determinism and cache optimization
@@ -72,16 +73,33 @@ if(UNIX AND NOT APPLE)
         __STDC_LIMIT_MACROS
         __STDC_CONSTANT_MACROS
     )
-    
-    # Link with pthread for atomic operations and threading
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-    find_package(Threads REQUIRED)
+endif()
+
+# Link with pthread for atomic operations and threading (all Unix systems)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+# ====
+# Find Dependencies
+# ====
+if(APPLE)
+    set(Boost_NO_SYSTEM_PATHS ON)
+    set(BOOST_ROOT /opt/homebrew)
+endif()
+
+find_package(Boost REQUIRED)
+find_package(OpenSSL REQUIRED)
+if(APPLE)
+    include_directories(/opt/homebrew/include)
+    link_directories(/opt/homebrew/lib)
 endif()
 
 # ====
 # Include Directories
 # ====
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 # ====
 # Source Files
@@ -91,62 +109,36 @@ set(SOURCES
 )
 
 # ====
-# Executable Target
+# Executable Targets
 # ====
 add_executable(hft_system ${SOURCES})
-
-# Backtest Demo with Institutional Logging
 add_executable(backtest_demo src/backtest_demo.cpp)
 
 # ====
 # Linking
 # ====
 if(UNIX)
-    target_link_libraries(hft_system PRIVATE Threads::Threads)
-    target_link_libraries(backtest_demo PRIVATE Threads::Threads)
+    target_link_libraries(hft_system PRIVATE Threads::Threads OpenSSL::SSL OpenSSL::Crypto)
+    target_link_libraries(backtest_demo PRIVATE Threads::Threads OpenSSL::SSL OpenSSL::Crypto)
     
-    # Link with real-time extensions for high-resolution timers
-    target_link_libraries(hft_system PRIVATE rt)
-    target_link_libraries(backtest_demo PRIVATE rt)
+    if(Boost_FOUND)
+        target_include_directories(hft_system PRIVATE ${Boost_INCLUDE_DIRS})
+        target_include_directories(backtest_demo PRIVATE ${Boost_INCLUDE_DIRS})
+    endif()
     
-    # Link with OpenSSL for SHA256 checksums (institutional logging)
-    find_package(OpenSSL REQUIRED)
-    target_link_libraries(hft_system PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-    target_link_libraries(backtest_demo PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-    message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+    # Link with real-time extensions for high-resolution timers (Linux only)
+    if(NOT APPLE)
+        target_link_libraries(hft_system PRIVATE rt)
+        target_link_libraries(backtest_demo PRIVATE rt)
+    endif()
     
     # Link with Rust library if available
     if(EXISTS "${PROJECT_SOURCE_DIR}/target/release/libhft_rust_core.a")
         target_link_libraries(hft_system PRIVATE 
             "${PROJECT_SOURCE_DIR}/target/release/libhft_rust_core.a")
         message(STATUS "Rust library found and linked")
-    else()
-        message(STATUS "Rust library not found - build with 'cargo build --release'")
     endif()
 endif()
-
-# ====
-# Memory Allocator Options (for production)
-# Uncomment to use high-performance allocators
-# ====
-# option(USE_JEMALLOC "Use jemalloc allocator" OFF)
-# option(USE_TCMALLOC "Use TCMalloc allocator" OFF)
-# 
-# if(USE_JEMALLOC)
-#     find_library(JEMALLOC_LIB jemalloc)
-#     if(JEMALLOC_LIB)
-#         target_link_libraries(hft_system PRIVATE ${JEMALLOC_LIB})
-#         message(STATUS "Using jemalloc: ${JEMALLOC_LIB}")
-#     endif()
-# endif()
-# 
-# if(USE_TCMALLOC)
-#     find_library(TCMALLOC_LIB tcmalloc)
-#     if(TCMALLOC_LIB)
-#         target_link_libraries(hft_system PRIVATE ${TCMALLOC_LIB})
-#         message(STATUS "Using TCMalloc: ${TCMALLOC_LIB}")
-#     endif()
-# endif()
 
 # ====
 # CPU Affinity and NUMA (optional)
@@ -159,21 +151,6 @@ if(ENABLE_NUMA)
         target_compile_definitions(hft_system PRIVATE ENABLE_NUMA)
         message(STATUS "NUMA support enabled: ${NUMA_LIB}")
     endif()
-endif()
-
-# ====
-# DPDK Support (optional - for production kernel bypass)
-# ====
-option(ENABLE_DPDK "Enable DPDK integration" OFF)
-if(ENABLE_DPDK)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(DPDK REQUIRED libdpdk)
-    
-    target_include_directories(hft_system PRIVATE ${DPDK_INCLUDE_DIRS})
-    target_link_libraries(hft_system PRIVATE ${DPDK_LINK_LIBRARIES})
-    target_compile_definitions(hft_system PRIVATE ENABLE_DPDK)
-    
-    message(STATUS "DPDK enabled")
 endif()
 
 # ====
@@ -191,22 +168,6 @@ if(BUILD_TESTS)
 endif()
 
 # ====
-# Documentation
-# ====
-option(BUILD_DOCS "Build documentation" OFF)
-if(BUILD_DOCS)
-    find_package(Doxygen)
-    if(DOXYGEN_FOUND)
-        add_custom_target(docs
-            COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxyfile
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-            COMMENT "Generating API documentation with Doxygen"
-            VERBATIM
-        )
-    endif()
-endif()
-
-# ====
 # Print Configuration Summary
 # ====
 message(STATUS "")
@@ -215,7 +176,6 @@ message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ Standard: C++${CMAKE_CXX_STANDARD}")
 message(STATUS "LTO Enabled: ${CMAKE_INTERPROCEDURAL_OPTIMIZATION}")
-message(STATUS "DPDK Enabled: ${ENABLE_DPDK}")
 message(STATUS "NUMA Enabled: ${ENABLE_NUMA}")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "==================================================")
