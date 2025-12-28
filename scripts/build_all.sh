@@ -25,7 +25,18 @@ echo -e "${NC}"
 CXX="${CXX:-g++}"
 CXXFLAGS="-std=c++17 -O3 -march=native -DNDEBUG -ffast-math -flto"
 INCLUDES="-I./include"
-LIBS="-lpthread"
+LIBS="-lpthread -lssl -lcrypto"
+
+# macOS specific paths for Boost and OpenSSL
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [ -d "/opt/homebrew/include" ]; then
+        INCLUDES="${INCLUDES} -I/opt/homebrew/include"
+        LIBS="${LIBS} -L/opt/homebrew/lib"
+    elif [ -d "/usr/local/include" ]; then
+        INCLUDES="${INCLUDES} -I/usr/local/include"
+        LIBS="${LIBS} -L/usr/local/lib"
+    fi
+fi
 
 # Create build directory
 mkdir -p build
