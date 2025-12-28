@@ -3,6 +3,32 @@ import { Calendar, Cpu, Package, Zap, Shield, Code, Database, Network, Gauge } f
 
 const releases = [
   {
+    version: 'v2.2.0',
+    date: 'December 28, 2025',
+    title: 'Multi-Kernel Modeling & Engagement Framework',
+    icon: Network,
+    changes: [
+      {
+        type: 'new',
+        title: 'Vectorized Multi-Kernel Hawkes engine',
+        description: 'New SIMD-accelerated engine supporting 4 simultaneous kernels. Captures multi-scale market excitation from microseconds to milliseconds in O(1) time. Integrated with fast_exp LUT for sub-microsecond updates.',
+        icon: Zap,
+      },
+      {
+        type: 'new',
+        title: 'Institutional Engagement Framework',
+        description: 'Added formal documentation and issue templates for commercial support, research collaboration, and FPGA/NIC hardware integration at docs/ENGAGEMENTS.md.',
+        icon: Shield,
+      },
+      {
+        type: 'enhancement',
+        title: 'Improved macOS Build Toolchain',
+        description: 'Automated detection of Homebrew paths for Boost and OpenSSL in build scripts. Fixed compilation headers for ARM64/Apple Silicon architectures.',
+        icon: Code,
+      },
+    ],
+  },
+  {
     version: 'v2.1.0',
     date: 'December 16, 2025',
     title: 'Performance Optimization & Verification',
@@ -211,9 +237,8 @@ export default function Changelog() {
                           {change.title}
                         </h4>
                         <span
-                          className={`px-3 py-1 text-xs font-semibold uppercase border-2 rounded-md whitespace-nowrap ${
-                            typeColors[change.type as keyof typeof typeColors]
-                          }`}
+                          className={`px-3 py-1 text-xs font-semibold uppercase border-2 rounded-md whitespace-nowrap ${typeColors[change.type as keyof typeof typeColors]
+                            }`}
                         >
                           {change.type}
                         </span>
@@ -264,9 +289,9 @@ export default function Changelog() {
             <div>
               <h4 className="text-lg font-semibold text-foreground mb-2">Version History Notes</h4>
               <p className="text-muted text-sm leading-relaxed">
-                All performance measurements verified with TSC (Time Stamp Counter) timestamps. Test environment: 
-                Intel Xeon Platinum 8280 @ 2.7GHz, isolated core, RT kernel, bare metal (no virtualization), 
-                C-states OFF, Turbo Boost OFF. Precision: ±5ns TSC jitter, ±17ns PTP offset. Repository follows 
+                All performance measurements verified with TSC (Time Stamp Counter) timestamps. Test environment:
+                Intel Xeon Platinum 8280 @ 2.7GHz, isolated core, RT kernel, bare metal (no virtualization),
+                C-states OFF, Turbo Boost OFF. Precision: ±5ns TSC jitter, ±17ns PTP offset. Repository follows
                 semantic versioning (SemVer) with evidence-based changelog entries.
               </p>
             </div>
