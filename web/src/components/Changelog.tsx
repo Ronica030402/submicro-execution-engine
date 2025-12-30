@@ -3,6 +3,46 @@ import { Calendar, Cpu, Package, Zap, Shield, Code, Database, Network, Gauge } f
 
 const releases = [
   {
+    version: 'v2.4.0',
+    date: 'December 30, 2025',
+    title: 'Cold-Start Elimination & Jitter Profiling',
+    icon: Zap,
+    changes: [
+      {
+        type: 'new',
+        title: 'Cache Warming & Hot-Path Optimization',
+        description: 'Implemented 50,000-iteration "Warm-Up Phase" to pre-fault instruction pages, train branch predictors, and populate standard TLBs. Eliminates "first-tick" latency spikes.',
+        icon: Cpu,
+      },
+      {
+        type: 'new',
+        title: 'Jitter Profiler & Stall Detector',
+        description: 'Built-in nanosecond-resolution profiler to detect System Management Interrupts (SMIs) and OS context switches. Ensures true core isolation for p99 latency stability.',
+        icon: Gauge,
+      },
+      {
+        type: 'enhancement',
+        title: 'Explicit L1 Cache Prefetching',
+        description: 'Added __builtin_prefetch calls to pull Risk Control and Strategy state into L1 cache (~1ns) while the network card is busy, effectively hiding the 80ns DRAM access cost.',
+        icon: Database,
+      },
+    ],
+  },
+  {
+    version: 'v2.3.0',
+    date: 'December 30, 2025',
+    title: 'SIMD-Accelerated Alpha Engine',
+    icon: Code,
+    changes: [
+      {
+        type: 'new',
+        title: 'SIMD Alpha Extraction (AVX2/NEON)',
+        description: 'Replaced scalar feature loops with vectorized intrinsics. Processes entire order book levels in parallel, reducing Order Flow Imbalance logic from O(N) to effectively O(1).',
+        icon: Zap,
+      },
+    ],
+  },
+  {
     version: 'v2.2.0',
     date: 'December 28, 2025',
     title: 'Multi-Kernel Modeling & Engagement Framework',
