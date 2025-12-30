@@ -11,7 +11,7 @@
 #include "metrics_collector.hpp"
 #include "websocket_server.hpp"
 #include "spin_loop_engine.hpp"
-
+#include "jitter_profiler.hpp"
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -246,11 +246,37 @@ int main() {
     
     TradingState state;
     PerformanceMetrics metrics;
+    JitterProfiler jitter_profiler;
     
     // Initialize reference asset tick (for cross-asset features)
     state.reference_asset_tick.mid_price = 100.0;
     state.reference_asset_tick.bid_price = 99.99;
     state.reference_asset_tick.ask_price = 100.01;
+    
+    // ==== CACHE WARMING PHASE ====
+    // Run hot path with dummy data to:
+    // 1. Fault in all code pages (Instruction Cache)
+    // 2. Train CPU branch predictors
+    // 3. Populate TLB with huge pages (if enabled)
+    std::cout << "[INIT] Warming up Instruction & Data Caches (50k iterations)..." << std::endl;
+    for(int i=0; i<50000; ++i) {
+        // Dummy data
+        MarketTick dummy_tick; 
+        dummy_tick.mid_price = 100.0 + (i&1)*0.01; 
+        dummy_tick.trade_volume = 100;
+        
+        // Execute heavy compute path
+        const auto features = fpga_inference.extract_features(dummy_tick, state.reference_asset_tick, 10.0, 10.0);
+        const auto pred = fpga_inference.predict(features);
+        vol_estimator.update(dummy_tick.mid_price);
+        mm_strategy.calculate_quotes(dummy_tick.mid_price, 0, 300.0, 0.0);
+        risk_control.check_pre_trade_limits(Order(), 0);
+        
+        // Prevent optimizer from removing this loop
+        std::atomic_signal_fence(std::memory_order_release);
+    }
+    std::cout << "[INIT] Warm-up complete. CPU Branch Predictors trained." << std::endl;
+    // =============================
     
     uint64_t cycle_count = 0;
     const uint64_t print_interval = 1000;  // Print stats every N cycles
@@ -263,10 +289,21 @@ int main() {
     std::cout << "  Deterministic FPGA-style pipeline" << std::endl;
     std::cout << "  No dynamic allocation (garbage-free)" << std::endl;
     std::cout << "  Cache-line aligned structures" << std::endl;
+    std::cout << "  Jitter Profiling & Stall Detection" << std::endl;
+    std::cout << "  L1 Cache Prefetching & Warm-up" << std::endl;
     std::cout << "Target latency: < 1000 ns per decision cycle\n" << std::endl;
     
     while (!g_shutdown_requested.load(std::memory_order_acquire) && 
            !risk_control.is_kill_switch_triggered()) {
+        
+        jitter_profiler.mark(); // Measure cycle gap immediately
+        
+        // CRITICAL: Prefetch hot structures into L1 cache while checking NIC
+        // This hides the ~80ns DRAM latency for these structures
+        JitterProfiler::prefetch_L1(&risk_control);
+        JitterProfiler::prefetch_L1(&mm_strategy);
+        JitterProfiler::prefetch_L1(&state);
+        JitterProfiler::prefetch_next_line(&state); // Prefetch adjacent lines
         
         const Timestamp cycle_start = now();
         
@@ -495,6 +532,7 @@ int main() {
     std::cout << "Total Trades: " << state.total_trades << std::endl;
     
     metrics.print_stats();
+    jitter_profiler.print_report();
     
     const auto final_nic_stats = nic.get_stats();
     std::cout << "\n=== NIC Statistics ===" << std::endl;

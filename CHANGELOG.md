@@ -9,6 +9,8 @@ All notable changes to the **Sub-Microsecond Execution Engine** will be document
   - *Why it helps:* "Mean latency" metrics hide tail events. HFT requires consistent variance (jitter). This tool flags if the isolated core is truly isolated or being interrupted.
 - **Explicit L1 Cache Prefetching**: Added `prefetch_L1` and `prefetch_next_line` utilities.
   - *Why it helps:* Allows hot-path loops to pull the next 64-byte cache line into L1 cache before it's needed, hiding the ~80ns DRAM latency.
+- **Cache Warming & Hot-Path Optimization**: Implemented a 50,000-iteration "Warm-Up Phase" before market data ingestion starts.
+  - *Why it helps:* Pre-faults instruction pages into i-cache, populates the TLB, and trains CPU branch predictors. This ensures the *very first* market tick is processed with fully optimized CPU state, eliminating "cold start" latency spikes.
 
 ## [v2.3.0] - 2025-12-30
 
